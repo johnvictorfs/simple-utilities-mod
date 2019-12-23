@@ -38,20 +38,28 @@ public class GameInfoHud implements Drawable {
         for (String line : lines) {
             maxLineWidth = Math.max(maxLineWidth, this.fontRenderer.getStringWidth(line));
         }
-        maxLineWidth = (int) (Math.ceil(maxLineWidth / 5.0D + 0.5D) * 5);
 
         int top = 0;
-        int scaleWidth = this.client.getWindow().getScaledWidth();
 
         int lineHeight = this.fontRenderer.fontHeight + 2;
-        int left = (scaleWidth - maxLineWidth) / 2 - 2;
-
-        top++;
-        left++;
+        // maxLineWidth = (int) (Math.ceil(maxLineWidth / 5.0D + 0.5D) * 5);
+        // int scaleWidth = this.client.getWindow().getScaledWidth();
+        // int left = (scaleWidth - maxLineWidth) / 12 - 2;
+        int left = 4;
 
         for (String line : lines) {
-            this.fontRenderer.draw(line, left + 1, top + 1, 0x00E0E0E0);
+            this.fontRenderer.draw(line, left, top + 4, 0x00E0E0E0);
             top += lineHeight;
+        }
+
+        if (this.player.isSprinting()) {
+            int maxLineHeight = Math.max(10, this.fontRenderer.getStringWidth("Sprinting"));
+            maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
+            int scaleHeight = this.client.getWindow().getScaledHeight();
+            int sprintingTop = scaleHeight - maxLineHeight;
+
+            // Sprinting Info
+            this.fontRenderer.draw("Sprinting", 2, sprintingTop + 20, 0x00E0E0E0);
         }
     }
 
@@ -92,11 +100,6 @@ public class GameInfoHud implements Drawable {
         gameInfo.add(
                 String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ(), direction)
         );
-
-        if (this.player.isSprinting()) {
-            // Sprinting Info
-            gameInfo.add("Sprinting");
-        }
 
         // Get everything from fps debug string until the 's' from 'fps'
         gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
