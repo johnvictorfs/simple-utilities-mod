@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "simple_utilities",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Simple Utilities",
+  "description": "Adds simple utilities like simplified F3 GUI and Toggle Sprint",
   "authors": [
-    "Me!"
+    "johnvictorfs"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/johnvictorfs/simple-utilities-mod"
   },
 
   "license": "CC0-1.0",
@@ -19,11 +19,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.johnvictorfs.simple_utilities.SimpleUtilities"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+      "simple_utilities.mixins.json"
   ],
 
   "depends": {

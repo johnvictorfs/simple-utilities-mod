@@ -1,11 +1,11 @@
 {
   "required": true,
-  "package": "net.fabricmc.example.mixin",
+  "package": "net.johnvictorfs.simple_utilities.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "GameInfoMixin"
   ],
   "injectors": {
     "defaultRequire": 1
