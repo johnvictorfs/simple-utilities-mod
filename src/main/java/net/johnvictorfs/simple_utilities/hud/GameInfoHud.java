@@ -1,5 +1,6 @@
 package net.johnvictorfs.simple_utilities.hud;
 
+import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -8,6 +9,8 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Direction;
 
@@ -18,8 +21,6 @@ import java.util.List;
 public class GameInfoHud implements Drawable {
     private final MinecraftClient client;
     private final TextRenderer fontRenderer;
-    private final int lightGray = Integer.parseInt("696969", 16);
-    private final int white = 0x00E0E0E0;
     private Entity player;
 
     public GameInfoHud(MinecraftClient client) {
@@ -41,20 +42,12 @@ public class GameInfoHud implements Drawable {
         List<String> gameInfo = getGameInfo();
         drawArmourInfo();
 
-        //int maxLineWidth = 10;
-        //for (String line : gameInfo) {
-        //    maxLineWidth = Math.max(maxLineWidth, this.fontRenderer.getStringWidth(line));
-        //}
-        // maxLineWidth = (int) (Math.ceil(maxLineWidth / 5.0D + 0.5D) * 5);
-        // int scaleWidth = this.client.getWindow().getScaledWidth();
-        // int left = (scaleWidth - maxLineWidth) / 12 - 2;
-
         int lineHeight = this.fontRenderer.fontHeight + 2;
         int top = 0;
         int left = 4;
 
         for (String line : gameInfo) {
-            this.fontRenderer.draw(line, left, top + 4, lightGray);
+            this.fontRenderer.draw(line, left, top + 4, Colors.lightGray);
             top += lineHeight;
         }
 
@@ -67,7 +60,7 @@ public class GameInfoHud implements Drawable {
             int sprintingTop = scaleHeight - maxLineHeight;
 
             // Sprinting Info
-            this.fontRenderer.draw(sprintingText, 2, sprintingTop + 20, lightGray);
+            this.fontRenderer.draw(sprintingText, 2, sprintingTop + 20, Colors.lightGray);
         }
     }
 
@@ -95,6 +88,35 @@ public class GameInfoHud implements Drawable {
         return offset.trim();
     }
 
+    private String zeroPadding(int number) {
+        return (number >= 10) ? Integer.toString(number) : String.format("0%s", number);
+    }
+
+    private String secondsToString(int pTime) {
+        final int min = pTime / 60;
+        final int sec = pTime - (min * 60);
+
+        final String strMin = zeroPadding(min);
+        final String strSec = zeroPadding(sec);
+        return String.format("%s:%s", strMin, strSec);
+    }
+
+    private void drawStatusEffectInfo() {
+        if (this.client.player != null) {
+            Map<StatusEffect, StatusEffectInstance> effects = this.client.player.getActiveStatusEffects();
+
+            for (Map.Entry<StatusEffect, StatusEffectInstance> effect : effects.entrySet()) {
+                String effectName = I18n.translate(effect.getKey().getTranslationKey());
+
+                String duration = secondsToString(effect.getValue().getDuration() / 20);
+
+                int color = effect.getKey().getColor();
+
+                this.fontRenderer.draw(effectName + " " + duration, 40, 200, color);
+            }
+        }
+    }
+
     private void drawArmourInfo() {
         List<ItemStack> armourItems = new ArrayList<>();
 
@@ -117,14 +139,37 @@ public class GameInfoHud implements Drawable {
                 continue;
             }
 
-            this.client.getItemRenderer().renderGuiItemIcon(armourItem, 2, armourTop - 54);
+            this.client.getItemRenderer().renderGuiItemIcon(armourItem, 2, armourTop - 68);
 
             int currentDurability = armourItem.getMaxDamage() - armourItem.getDamage();
             String itemDurability = currentDurability + "/" + armourItem.getMaxDamage();
-            this.fontRenderer.draw(itemDurability, 22, armourTop - 50, lightGray);
+            this.fontRenderer.draw(itemDurability, 22, armourTop - 64, Colors.lightGray);
 
             armourTop += lineHeight;
         }
+    }
+
+    private static String parseTime(long time) {
+        long hours = time / 1000 + 6;
+        long minutes = (time % 1000) * 60 / 1000;
+        String ampm = "AM";
+
+        if (hours >= 12) {
+            hours -= 12;
+            ampm = "PM";
+        }
+
+        if (hours >= 12) {
+            hours -= 12;
+            ampm = "AM";
+        }
+
+        if (hours == 0) hours = 12;
+
+        String mm = "0" + minutes;
+        mm = mm.substring(mm.length() - 2);
+
+        return hours + ":" + mm + " " + ampm;
     }
 
     private List<String> getGameInfo() {
@@ -147,6 +192,9 @@ public class GameInfoHud implements Drawable {
         // Get translated biome info
         if (client.world != null) {
             gameInfo.add(I18n.translate(client.world.getBiome(this.player.getBlockPos()).getTranslationKey()) + " Biome");
+
+            // Add current parsed time
+            gameInfo.add(parseTime(client.world.getTimeOfDay()));
         }
 
         return gameInfo;

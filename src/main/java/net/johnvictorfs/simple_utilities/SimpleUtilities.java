@@ -14,15 +14,5 @@ public class SimpleUtilities implements ModInitializer {
           Proceed with mild caution.
          */
         System.out.println("Simple Utilities Mod started.");
-
-        // Register ToggleSprint Keybind
-//        toggleSprint.registerToggleSprint();
-//
-//        ClientTickCallback.EVENT.register(client -> {
-//            // Toggle sprint mode
-//            if (toggleSprint.toggleSprintKeybind.wasPressed()) {
-//                toggleSprint.handleToggleSprintPress(client);
-//            }
-//        });
     }
 }
