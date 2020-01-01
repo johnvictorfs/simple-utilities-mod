@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Simple Utilities",
-  "description": "Adds simple utilities like simplified F3 GUI and Toggle Sprint",
+  "description": "Adds simple utilities like extra simplified info on HUD and Toggle Sprint",
   "authors": [
     "johnvictorfs"
   ],

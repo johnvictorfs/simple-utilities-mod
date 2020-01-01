@@ -21,22 +21,14 @@ public abstract class GameInfoMixin {
     @Final
     private MinecraftClient client;
 
-    @Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;)V"
-            , at = @At(
-            value = "RETURN"
-    ))
+    @Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;)V", at = @At(value = "RETURN"))
     private void onInit(MinecraftClient client, CallbackInfo ci) {
         // Start Mixin
         System.out.println("Init Coordinates Mixin");
         this.hudInfo = new GameInfoHud(client);
     }
 
-    @Inject(method = "render"
-            , at = @At(
-            value = "FIELD"
-            , target = "Lnet/minecraft/client/options/GameOptions;hudHidden:Z"
-            , ordinal = 2
-    ))
+    @Inject(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;hudHidden:Z", ordinal = 2))
     private void onDraw(float esp, CallbackInfo ci) {
         if (!this.client.options.debugEnabled) {
             // Draw Game info on every GameHud render
@@ -44,10 +36,7 @@ public abstract class GameInfoMixin {
         }
     }
 
-    @Inject(method = "resetDebugHudChunk"
-            , at = @At(
-            value = "RETURN"
-    ))
+    @Inject(method = "resetDebugHudChunk", at = @At(value = "RETURN"))
     private void onReset(CallbackInfo ci) {
     }
 }
