@@ -1,5 +1,7 @@
 # Simple Utilities Mod (Minecraft 1.15.x)
 
+Available to download from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities).
+
 Built starting from the [Fabric Example Mod Template](https://github.com/FabricMC/fabric-example-mod) and made with the [Fabric](https://fabricmc.net) modding toolchain for Minecraft.
 
 A Minecraft Mod that enhances the Game's HUD with some simple utilities like the following:
@@ -25,7 +27,7 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 
 - Install [Fabric Loader](https://fabricmc.net/use/) on your Minecraft client
     - Recommended to install with the [MultiMC](https://multimc.org/) Minecraft client, which allows you to install Fabric in one click in the Instance's settings
-- [Download latest Mod `.jar`](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest)
+- Download latest Mod `.jar` from [Github](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities)
 - Put the downloaded Mod `.jar` into the `.minecraft/mods` folder
     - Or if you're using MultiMC, open the Minecraft instance settings you're using, and look for an option to add a Mod there
 - Done!
@@ -65,5 +67,3 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 - **Will you add '*X feature not present in the [Planned Features](#planned-features) section*'**?
     - Maybe, and only if it fits with the other features of the mod, create [an issue](https://github.com/johnvictorfs/simple-utilities-mod/issues/new) about it, i only on this project on my spare time, but i'd be happy to add wanted features, although i only made this Mod for my own usage.
 
-- **Will this mod be on CurseForge?**
-    - Yes, soon. 
