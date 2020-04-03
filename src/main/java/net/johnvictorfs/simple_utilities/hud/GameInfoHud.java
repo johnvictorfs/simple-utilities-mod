@@ -151,7 +151,7 @@ public class GameInfoHud implements Drawable {
     }
 
     private static String parseTime(long time) {
-        long hours = time / 1000 + 6;
+        long hours = (time / 1000 + 6)%24;
         long minutes = (time % 1000) * 60 / 1000;
         String ampm = "AM";
 
