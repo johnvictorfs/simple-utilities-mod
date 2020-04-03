@@ -4,13 +4,15 @@ import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Direction;
 
@@ -22,7 +24,7 @@ import java.util.Map;
 public class GameInfoHud implements Drawable {
     private final MinecraftClient client;
     private final TextRenderer fontRenderer;
-    private Entity player;
+    private ClientPlayerEntity player;
 
     public GameInfoHud(MinecraftClient client) {
         this.client = client;
@@ -41,7 +43,7 @@ public class GameInfoHud implements Drawable {
         // Draw lines of Array of Game info in the screen
 
         List<String> gameInfo = getGameInfo();
-        drawArmourInfo();
+        drawEquipementInfo();
 
         int lineHeight = this.fontRenderer.fontHeight + 2;
         int top = 0;
@@ -118,35 +120,51 @@ public class GameInfoHud implements Drawable {
         }
     }
 
-    private void drawArmourInfo() {
-        List<ItemStack> armourItems = new ArrayList<>();
-
+    private void drawEquipementInfo() {
+        List<ItemStack> equippedItems = new ArrayList<>();
+        PlayerInventory inventory = this.player.inventory;
         int maxLineHeight = Math.max(10, this.fontRenderer.getStringWidth(""));
 
-        for (ItemStack armourItem : this.player.getArmorItems()) {
+        ItemStack mainHandItem = inventory.getMainHandStack();
+        maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getStringWidth(I18n.translate(mainHandItem.getTranslationKey())));
+        equippedItems.add(mainHandItem);
+
+        for (ItemStack secondHandItem : inventory.offHand) {
+            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getStringWidth(I18n.translate(secondHandItem.getTranslationKey())));
+            equippedItems.add(secondHandItem);
+        }
+
+        for (ItemStack armourItem : this.player.inventory.armor) {
             maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getStringWidth(I18n.translate(armourItem.getTranslationKey())));
-            armourItems.add(armourItem);
+            equippedItems.add(armourItem);
         }
 
         maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
-        int armourTop = this.client.getWindow().getScaledHeight() - maxLineHeight;
+        int itemTop = this.client.getWindow().getScaledHeight() - maxLineHeight;
 
         int lineHeight = this.fontRenderer.fontHeight + 6;
 
         // Draw in order Helmet -> Chestplate -> Leggings -> Boots
-        for (ItemStack armourItem : Lists.reverse(armourItems)) {
-            if (armourItem.getMaxDamage() == 0) {
+        for (ItemStack equippedItem : Lists.reverse(equippedItems)) {
+            if (equippedItem.getItem().equals(Blocks.AIR.asItem())) {
                 // Skip empty slots
                 continue;
             }
 
-            this.client.getItemRenderer().renderGuiItemIcon(armourItem, 2, armourTop - 68);
+            this.client.getItemRenderer().renderGuiItemIcon(equippedItem, 2, itemTop - 68);
 
-            int currentDurability = armourItem.getMaxDamage() - armourItem.getDamage();
-            String itemDurability = currentDurability + "/" + armourItem.getMaxDamage();
-            this.fontRenderer.draw(itemDurability, 22, armourTop - 64, Colors.lightGray);
-
-            armourTop += lineHeight;
+            if (equippedItem.getMaxDamage() != 0) {
+                int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
+                String itemDurability = currentDurability + "/" + equippedItem.getMaxDamage();
+                this.fontRenderer.draw(itemDurability, 22, itemTop - 64, Colors.lightGray);
+            } else {
+                int count = inventory.countInInv(equippedItem.getItem());
+                if (count > 1) {
+                    String itemCount = String.valueOf(count);
+                    this.fontRenderer.draw(itemCount, 22, itemTop - 64, Colors.lightGray);
+                }
+            }
+            itemTop += lineHeight;
         }
     }
 
