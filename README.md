@@ -8,8 +8,8 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 
 - **HUD Features:**
     - Simplified coordinates that are available all the time on the screen (Example: `39, 64, 200` as `X, Y, Z`)
-    - Cordinal directions and which Coordinates are increasing/decreasing (Example: `(East X+)` when looking East, where the `X` coordinate is increasing)
-    - Current armour and hand items and their durabilties, avaible all the time on the screen
+    - Cardinal directions and which Coordinates are increasing/decreasing (Example: `(East X+)` when looking East, where the `X` coordinate is increasing)
+    - Current armour and hand items and their durabilities, available all the time on the screen
     - Current Game time in AM/PM format
     - Current sprinting status
     - Current framerate
