@@ -156,9 +156,27 @@ public class GameInfoHud implements Drawable {
 
             if (equippedItem.getMaxDamage() != 0) {
                 int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
+
                 String itemDurability = currentDurability + "/" + equippedItem.getMaxDamage();
 
-                this.fontRenderer.draw(itemDurability, 22, itemTop - 64, Colors.lightGray);
+                // Default Durability Color
+                int color = Colors.lightGray;
+
+                if (currentDurability < equippedItem.getMaxDamage()) {
+                    // Start as Green if item has lost at least 1 durability
+                    color = Colors.lightGreen;
+                }
+                if (currentDurability <= (equippedItem.getMaxDamage() / 1.5)) {
+                    color = Colors.lightYellow;
+                }
+                if (currentDurability <= (equippedItem.getMaxDamage() / 2.5)) {
+                    color = Colors.lightOrange;
+                }
+                if (currentDurability <= (equippedItem.getMaxDamage()) / 4) {
+                    color = Colors.lightRed;
+                }
+
+                this.fontRenderer.draw(itemDurability, 22, itemTop - 64, color);
             } else {
                 int count = equippedItem.getCount();
 

@@ -10,6 +10,7 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
     - Simplified coordinates that are available all the time on the screen (Example: `39, 64, 200` as `X, Y, Z`)
     - Cardinal directions and which Coordinates are increasing/decreasing (Example: `(East X+)` when looking East, where the `X` coordinate is increasing)
     - Current armour and hand items and their durabilities, available all the time on the screen
+        - Different colors based on how low the durability is
     - Current Game time in AM/PM format
     - Current sprinting status
     - Current framerate
@@ -48,7 +49,6 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 ## Planned features
 
 - Allow the User to toggle the HUD utilities, both individually and as a whole, could be done either with Hotkeys or with a Settings interface, possibly both
-- Add durability colors to Armour
 - Add current status effects duration to HUD
 - Add Sun/Moon icons to the current game time, so it's easier to notice if it's Day or Night
 
