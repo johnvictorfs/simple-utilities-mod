@@ -4,6 +4,7 @@ import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.johnvictorfs.simple_utilities.mixin.GameClientMixin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -155,21 +156,42 @@ public class GameInfoHud implements Drawable {
 
             if (equippedItem.getMaxDamage() != 0) {
                 int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
+
                 String itemDurability = currentDurability + "/" + equippedItem.getMaxDamage();
-                this.fontRenderer.draw(itemDurability, 22, itemTop - 64, Colors.lightGray);
+
+                // Default Durability Color
+                int color = Colors.lightGray;
+
+                if (currentDurability < equippedItem.getMaxDamage()) {
+                    // Start as Green if item has lost at least 1 durability
+                    color = Colors.lightGreen;
+                }
+                if (currentDurability <= (equippedItem.getMaxDamage() / 1.5)) {
+                    color = Colors.lightYellow;
+                }
+                if (currentDurability <= (equippedItem.getMaxDamage() / 2.5)) {
+                    color = Colors.lightOrange;
+                }
+                if (currentDurability <= (equippedItem.getMaxDamage()) / 4) {
+                    color = Colors.lightRed;
+                }
+
+                this.fontRenderer.draw(itemDurability, 22, itemTop - 64, color);
             } else {
-                int count = inventory.countInInv(equippedItem.getItem());
+                int count = equippedItem.getCount();
+
                 if (count > 1) {
                     String itemCount = String.valueOf(count);
                     this.fontRenderer.draw(itemCount, 22, itemTop - 64, Colors.lightGray);
                 }
             }
+
             itemTop += lineHeight;
         }
     }
 
     private static String parseTime(long time) {
-        long hours = (time / 1000 + 6)%24;
+        long hours = (time / 1000 + 6) % 24;
         long minutes = (time % 1000) * 60 / 1000;
         String ampm = "AM";
 
@@ -201,12 +223,11 @@ public class GameInfoHud implements Drawable {
         String direction = "(" + capitalize(facing.asString()) + " " + getOffset(facing) + ")";
 
         // Coordinates and Direction info
-        gameInfo.add(
-                String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ(), direction)
-        );
+        gameInfo.add(String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ(), direction));
 
         // Get everything from fps debug string until the 's' from 'fps'
-        gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
+        // gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
+        gameInfo.add(String.format("%d fps", ((GameClientMixin) client.getInstance()).getCurrentFps()));
 
         // Get translated biome info
         if (client.world != null) {
