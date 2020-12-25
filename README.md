@@ -15,6 +15,7 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
     - Current sprinting status
     - Current framerate
     - Current Biome the player is on
+    - Toggle key (editable in Controls screen, default is `k`)
 
 ---
 
@@ -48,9 +49,9 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 
 ## Planned features
 
-- Allow the User to toggle the HUD utilities, both individually and as a whole, could be done either with Hotkeys or with a Settings interface, possibly both
 - Add current status effects duration to HUD
 - Add Sun/Moon icons to the current game time, so it's easier to notice if it's Day or Night
+- Add settings to move HUD elements around the screen and toggle specific elements
 
 ---
 
