@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Simple Utilities",
-  "description": "Adds simple utilities like extra simplified info on HUD and Toggle Sprint",
+  "description": "Adds simple utilities like extra simplified info on HUD",
   "authors": [
     "johnvictorfs"
   ],
@@ -29,7 +29,7 @@
   "depends": {
     "fabricloader": ">=0.7.2",
     "fabric": "*",
-    "minecraft": "1.15.x"
+    "minecraft": "1.16.x"
   },
   "suggests": {
     "flamingo": "*"

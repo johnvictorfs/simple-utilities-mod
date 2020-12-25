@@ -1,4 +1,4 @@
-# Simple Utilities Mod (Minecraft 1.15.x)
+# Simple Utilities Mod (Minecraft 1.16.x, 1.15.x)
 
 Available to download from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities).
 
