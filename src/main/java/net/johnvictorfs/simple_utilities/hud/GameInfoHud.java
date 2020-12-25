@@ -1,5 +1,6 @@
 package net.johnvictorfs.simple_utilities.hud;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
@@ -8,6 +9,7 @@ import net.johnvictorfs.simple_utilities.mixin.GameClientMixin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
@@ -15,6 +17,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
@@ -27,13 +30,37 @@ public class GameInfoHud {
     private final TextRenderer fontRenderer;
     private ClientPlayerEntity player;
     private MatrixStack matrixStack;
+    private static KeyBinding toggleKeybinding;
+    private boolean toggledOn = true;
 
     public GameInfoHud(MinecraftClient client) {
         this.client = client;
         this.fontRenderer = client.textRenderer;
+
+        for (KeyBinding keyBinding : client.options.keysAll) {
+            if (keyBinding.getTranslationKey().equals("key.simple_utilities.toggle_hud")) {
+                toggleKeybinding = keyBinding;
+            }
+        }
+
+        ClientTickEvents.END_CLIENT_TICK.register(_client -> {
+            if (toggleKeybinding.wasPressed()) {
+                assert client.player != null;
+
+                String chatMessage = "key.simple_utilities.toggle_hud.chat_message.on";
+                if (this.toggledOn) {
+                    chatMessage = "key.simple_utilities.toggle_hud.chat_message.off";
+                }
+
+                client.player.sendMessage(new TranslatableText(chatMessage), true);
+                this.toggledOn = !this.toggledOn;
+            }
+        });
     }
 
     public void draw(MatrixStack matrixStack) {
+        if (!this.toggledOn) return;
+
         this.player = this.client.player;
         this.matrixStack = matrixStack;
 

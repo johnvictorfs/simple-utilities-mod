@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "simple_utilities",
   "version": "${version}",
-
   "name": "Simple Utilities",
   "description": "Adds simple utilities like extra simplified info on HUD",
   "authors": [
@@ -12,10 +11,8 @@
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/johnvictorfs/simple-utilities-mod"
   },
-
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
-
+  "icon": "assets/simple_utilities/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -23,9 +20,8 @@
     ]
   },
   "mixins": [
-      "simple_utilities.mixins.json"
+    "simple_utilities.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.7.2",
     "fabric": "*",
