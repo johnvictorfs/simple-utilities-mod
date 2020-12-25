@@ -10,6 +10,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
@@ -31,11 +32,14 @@ public class GameInfoHud {
     private ClientPlayerEntity player;
     private MatrixStack matrixStack;
     private static KeyBinding toggleKeybinding;
+    private final ItemRenderer itemRenderer;
     private boolean toggledOn = true;
 
     public GameInfoHud(MinecraftClient client) {
         this.client = client;
         this.fontRenderer = client.textRenderer;
+        this.itemRenderer = client.getItemRenderer();
+        this.itemRenderer.zOffset -= 500;
 
         for (KeyBinding keyBinding : client.options.keysAll) {
             if (keyBinding.getTranslationKey().equals("key.simple_utilities.toggle_hud")) {
@@ -181,7 +185,7 @@ public class GameInfoHud {
                 continue;
             }
 
-            this.client.getItemRenderer().renderGuiItemIcon(equippedItem, 2, itemTop - 68);
+            this.itemRenderer.renderInGuiWithOverrides(equippedItem, 2, itemTop - 68);
 
             if (equippedItem.getMaxDamage() != 0) {
                 int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
