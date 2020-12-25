@@ -5,8 +5,8 @@
   "mixins": [
   ],
   "client": [
-    "GameInfoMixin",
-    "GameClientMixin"
+    "GameClientMixin",
+    "GameInfoMixin"
   ],
   "injectors": {
     "defaultRequire": 1

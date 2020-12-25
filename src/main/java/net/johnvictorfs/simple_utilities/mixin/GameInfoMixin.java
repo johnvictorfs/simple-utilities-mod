@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.johnvictorfs.simple_utilities.hud.GameInfoHud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,10 +30,10 @@ public abstract class GameInfoMixin {
     }
 
     @Inject(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;hudHidden:Z", ordinal = 2))
-    private void onDraw(float esp, CallbackInfo ci) {
+    private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci) {
         if (!this.client.options.debugEnabled) {
             // Draw Game info on every GameHud render
-            this.hudInfo.draw();
+            this.hudInfo.draw(matrixStack);
         }
     }
 

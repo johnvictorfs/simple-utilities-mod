@@ -1,5 +1,6 @@
 package net.johnvictorfs.simple_utilities.hud;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
@@ -8,13 +9,16 @@ import net.johnvictorfs.simple_utilities.mixin.GameClientMixin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
@@ -22,18 +26,47 @@ import java.util.List;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
-public class GameInfoHud implements Drawable {
+public class GameInfoHud {
     private final MinecraftClient client;
     private final TextRenderer fontRenderer;
     private ClientPlayerEntity player;
+    private MatrixStack matrixStack;
+    private static KeyBinding toggleKeybinding;
+    private final ItemRenderer itemRenderer;
+    private boolean toggledOn = true;
 
     public GameInfoHud(MinecraftClient client) {
         this.client = client;
         this.fontRenderer = client.textRenderer;
+        this.itemRenderer = client.getItemRenderer();
+        this.itemRenderer.zOffset -= 500;
+
+        for (KeyBinding keyBinding : client.options.keysAll) {
+            if (keyBinding.getTranslationKey().equals("key.simple_utilities.toggle_hud")) {
+                toggleKeybinding = keyBinding;
+            }
+        }
+
+        ClientTickEvents.END_CLIENT_TICK.register(_client -> {
+            if (toggleKeybinding.wasPressed()) {
+                assert client.player != null;
+
+                String chatMessage = "key.simple_utilities.toggle_hud.chat_message.on";
+                if (this.toggledOn) {
+                    chatMessage = "key.simple_utilities.toggle_hud.chat_message.off";
+                }
+
+                client.player.sendMessage(new TranslatableText(chatMessage), true);
+                this.toggledOn = !this.toggledOn;
+            }
+        });
     }
 
-    public void draw() {
+    public void draw(MatrixStack matrixStack) {
+        if (!this.toggledOn) return;
+
         this.player = this.client.player;
+        this.matrixStack = matrixStack;
 
         this.drawInfos();
 
@@ -51,20 +84,20 @@ public class GameInfoHud implements Drawable {
         int left = 4;
 
         for (String line : gameInfo) {
-            this.fontRenderer.draw(line, left, top + 4, Colors.lightGray);
+            this.fontRenderer.draw(this.matrixStack, line, left, top + 4, Colors.white);
             top += lineHeight;
         }
 
         if (this.player.isSprinting()) {
             final String sprintingText = "Sprinting";
 
-            int maxLineHeight = Math.max(10, this.fontRenderer.getStringWidth(sprintingText));
+            int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(sprintingText));
             maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
             int scaleHeight = this.client.getWindow().getScaledHeight();
             int sprintingTop = scaleHeight - maxLineHeight;
 
             // Sprinting Info
-            this.fontRenderer.draw(sprintingText, 2, sprintingTop + 20, Colors.lightGray);
+            this.fontRenderer.draw(this.matrixStack, sprintingText, 2, sprintingTop + 20, Colors.white);
         }
     }
 
@@ -116,7 +149,7 @@ public class GameInfoHud implements Drawable {
 
                 int color = effect.getKey().getColor();
 
-                this.fontRenderer.draw(effectName + " " + duration, 40, 200, color);
+                this.fontRenderer.draw(this.matrixStack, effectName + " " + duration, 40, 200, color);
             }
         }
     }
@@ -124,19 +157,19 @@ public class GameInfoHud implements Drawable {
     private void drawEquipementInfo() {
         List<ItemStack> equippedItems = new ArrayList<>();
         PlayerInventory inventory = this.player.inventory;
-        int maxLineHeight = Math.max(10, this.fontRenderer.getStringWidth(""));
+        int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(""));
 
         ItemStack mainHandItem = inventory.getMainHandStack();
-        maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getStringWidth(I18n.translate(mainHandItem.getTranslationKey())));
+        maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(mainHandItem.getTranslationKey())));
         equippedItems.add(mainHandItem);
 
         for (ItemStack secondHandItem : inventory.offHand) {
-            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getStringWidth(I18n.translate(secondHandItem.getTranslationKey())));
+            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(secondHandItem.getTranslationKey())));
             equippedItems.add(secondHandItem);
         }
 
         for (ItemStack armourItem : this.player.inventory.armor) {
-            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getStringWidth(I18n.translate(armourItem.getTranslationKey())));
+            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(armourItem.getTranslationKey())));
             equippedItems.add(armourItem);
         }
 
@@ -152,7 +185,7 @@ public class GameInfoHud implements Drawable {
                 continue;
             }
 
-            this.client.getItemRenderer().renderGuiItemIcon(equippedItem, 2, itemTop - 68);
+            this.itemRenderer.renderInGuiWithOverrides(equippedItem, 2, itemTop - 68);
 
             if (equippedItem.getMaxDamage() != 0) {
                 int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
@@ -160,7 +193,7 @@ public class GameInfoHud implements Drawable {
                 String itemDurability = currentDurability + "/" + equippedItem.getMaxDamage();
 
                 // Default Durability Color
-                int color = Colors.lightGray;
+                int color = Colors.white;
 
                 if (currentDurability < equippedItem.getMaxDamage()) {
                     // Start as Green if item has lost at least 1 durability
@@ -176,13 +209,14 @@ public class GameInfoHud implements Drawable {
                     color = Colors.lightRed;
                 }
 
-                this.fontRenderer.draw(itemDurability, 22, itemTop - 64, color);
+                this.fontRenderer.draw(this.matrixStack, itemDurability, 22, itemTop - 64, color);
             } else {
+                int inventoryCount = inventory.count(equippedItem.getItem());
                 int count = equippedItem.getCount();
 
-                if (count > 1) {
-                    String itemCount = String.valueOf(count);
-                    this.fontRenderer.draw(itemCount, 22, itemTop - 64, Colors.lightGray);
+                if (inventoryCount > 1) {
+                    String itemCount = count + " (" + inventoryCount + ")";
+                    this.fontRenderer.draw(this.matrixStack, itemCount, 22, itemTop - 64, Colors.white);
                 }
             }
 
@@ -227,20 +261,16 @@ public class GameInfoHud implements Drawable {
 
         // Get everything from fps debug string until the 's' from 'fps'
         // gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
-        gameInfo.add(String.format("%d fps", ((GameClientMixin) client.getInstance()).getCurrentFps()));
+        gameInfo.add(String.format("%d fps", ((GameClientMixin) MinecraftClient.getInstance()).getCurrentFps()));
 
         // Get translated biome info
         if (client.world != null) {
-            gameInfo.add(I18n.translate(client.world.getBiome(this.player.getBlockPos()).getTranslationKey()) + " Biome");
+            gameInfo.add(capitalize(client.world.getBiome(player.getBlockPos()).getCategory().getName()) + " Biome");
 
             // Add current parsed time
             gameInfo.add(parseTime(client.world.getTimeOfDay()));
         }
 
         return gameInfo;
-    }
-
-    @Override
-    public void render(int mouseX, int mouseY, float delta) {
     }
 }
