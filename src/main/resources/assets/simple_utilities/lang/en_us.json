@@ -3,6 +3,7 @@
   "key.simple_utilities.toggle_hud": "Toggle HUD",
   "key.simple_utilities.toggle_hud.chat_message.on": "Toggled Simple HUD Utilities On",
   "key.simple_utilities.toggle_hud.chat_message.off": "Toggled Simple HUD Utilities Off",
+  "text.autoconfig.simple_utilities.title": "Simple HUD Utilities Settings",
   "text.autoconfig.simple_utilities.option.statusElements": "HUD Elements",
   "text.autoconfig.simple_utilities.option.statusElements.toggleSimpleUtilitiesHUD": "All HUD Elements",
   "text.autoconfig.simple_utilities.option.statusElements.toggleCoordinatesStatus": "Coordinates Status",
