@@ -4,7 +4,7 @@
   "key.simple_utilities.toggle_hud.chat_message.on": "Toggled Simple HUD Utilities On",
   "key.simple_utilities.toggle_hud.chat_message.off": "Toggled Simple HUD Utilities Off",
   "text.autoconfig.simple_utilities.option.statusElements": "HUD Elements",
-  "text.autoconfig.simple_utilities.option.statusElements.toggleSimpleUtilitiesHUD": "Simple HUD Utilities",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleSimpleUtilitiesHUD": "All HUD Elements",
   "text.autoconfig.simple_utilities.option.statusElements.toggleCoordinatesStatus": "Coordinates Status",
   "text.autoconfig.simple_utilities.option.statusElements.toggleEquipmentStatus": "Armour and Hand Status",
   "text.autoconfig.simple_utilities.option.statusElements.toggleFpsStatus": "FPS Status",
