@@ -1,6 +1,8 @@
 package net.johnvictorfs.simple_utilities.hud;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import com.mojang.blaze3d.systems.RenderSystem;
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import net.johnvictorfs.simple_utilities.config.SimpleUtilitiesConfig;
 import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
@@ -9,7 +11,7 @@ import net.johnvictorfs.simple_utilities.mixin.GameClientMixin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -18,7 +20,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
@@ -31,42 +33,32 @@ public class GameInfoHud {
     private final TextRenderer fontRenderer;
     private ClientPlayerEntity player;
     private MatrixStack matrixStack;
-    private static KeyBinding toggleKeybinding;
     private final ItemRenderer itemRenderer;
-    private boolean toggledOn = true;
+    private SimpleUtilitiesConfig config;
 
     public GameInfoHud(MinecraftClient client) {
         this.client = client;
         this.fontRenderer = client.textRenderer;
         this.itemRenderer = client.getItemRenderer();
-        this.itemRenderer.zOffset -= 500;
+        this.itemRenderer.zOffset -= 1000.0F;
 
-        for (KeyBinding keyBinding : client.options.keysAll) {
-            if (keyBinding.getTranslationKey().equals("key.simple_utilities.toggle_hud")) {
-                toggleKeybinding = keyBinding;
-            }
-        }
+        this.config = AutoConfig.getConfigHolder(SimpleUtilitiesConfig.class).getConfig();
 
-        ClientTickEvents.END_CLIENT_TICK.register(_client -> {
-            if (toggleKeybinding.wasPressed()) {
-                assert client.player != null;
-
-                String chatMessage = "key.simple_utilities.toggle_hud.chat_message.on";
-                if (this.toggledOn) {
-                    chatMessage = "key.simple_utilities.toggle_hud.chat_message.off";
-                }
-
-                client.player.sendMessage(new TranslatableText(chatMessage), true);
-                this.toggledOn = !this.toggledOn;
-            }
+        AutoConfig.getConfigHolder(SimpleUtilitiesConfig.class).registerSaveListener((manager, data) -> {
+            // Update local config when new settings are saved
+            this.config = data;
+            return ActionResult.SUCCESS;
         });
     }
 
     public void draw(MatrixStack matrixStack) {
-        if (!this.toggledOn) return;
+        if (!config.statusElements.toggleSimpleUtilitiesHUD) return;
 
         this.player = this.client.player;
+
         this.matrixStack = matrixStack;
+
+        RenderSystem.enableBlend();
 
         this.drawInfos();
 
@@ -75,30 +67,36 @@ public class GameInfoHud {
 
     private void drawInfos() {
         // Draw lines of Array of Game info in the screen
-
         List<String> gameInfo = getGameInfo();
-        drawEquipementInfo();
+
+        if (config.statusElements.toggleEquipmentStatus && !(this.client.currentScreen instanceof ChatScreen)) {
+            drawEquipmentInfo();
+        }
 
         int lineHeight = this.fontRenderer.fontHeight + 2;
         int top = 0;
         int left = 4;
 
         for (String line : gameInfo) {
-            this.fontRenderer.draw(this.matrixStack, line, left, top + 4, Colors.white);
+            this.fontRenderer.drawWithShadow(this.matrixStack, line, left, top + 4, config.statusElements.textColor);
             top += lineHeight;
         }
 
-        if (this.player.isSprinting()) {
-            final String sprintingText = "Sprinting";
-
-            int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(sprintingText));
-            maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
-            int scaleHeight = this.client.getWindow().getScaledHeight();
-            int sprintingTop = scaleHeight - maxLineHeight;
-
-            // Sprinting Info
-            this.fontRenderer.draw(this.matrixStack, sprintingText, 2, sprintingTop + 20, Colors.white);
+        if (this.player.isSprinting() && config.statusElements.toggleSprintStatus) {
+            this.drawSprintingInfo();
         }
+    }
+
+    private void drawSprintingInfo() {
+        final String sprintingText = "Sprinting";
+
+        int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(sprintingText));
+        maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
+        int scaleHeight = this.client.getWindow().getScaledHeight();
+        int sprintingTop = scaleHeight - maxLineHeight;
+
+        // Sprinting Info
+        this.fontRenderer.drawWithShadow(this.matrixStack, sprintingText, 2, sprintingTop + 20, config.statusElements.textColor);
     }
 
     private static String capitalize(String str) {
@@ -149,12 +147,12 @@ public class GameInfoHud {
 
                 int color = effect.getKey().getColor();
 
-                this.fontRenderer.draw(this.matrixStack, effectName + " " + duration, 40, 200, color);
+                this.fontRenderer.drawWithShadow(this.matrixStack, effectName + " " + duration, 40, 200, color);
             }
         }
     }
 
-    private void drawEquipementInfo() {
+    private void drawEquipmentInfo() {
         List<ItemStack> equippedItems = new ArrayList<>();
         PlayerInventory inventory = this.player.inventory;
         int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(""));
@@ -193,7 +191,7 @@ public class GameInfoHud {
                 String itemDurability = currentDurability + "/" + equippedItem.getMaxDamage();
 
                 // Default Durability Color
-                int color = Colors.white;
+                int color = config.statusElements.textColor;
 
                 if (currentDurability < equippedItem.getMaxDamage()) {
                     // Start as Green if item has lost at least 1 durability
@@ -209,14 +207,14 @@ public class GameInfoHud {
                     color = Colors.lightRed;
                 }
 
-                this.fontRenderer.draw(this.matrixStack, itemDurability, 22, itemTop - 64, color);
+                this.fontRenderer.drawWithShadow(this.matrixStack, itemDurability, 22, itemTop - 64, color);
             } else {
                 int inventoryCount = inventory.count(equippedItem.getItem());
                 int count = equippedItem.getCount();
 
                 if (inventoryCount > 1) {
                     String itemCount = count + " (" + inventoryCount + ")";
-                    this.fontRenderer.draw(this.matrixStack, itemCount, 22, itemTop - 64, Colors.white);
+                    this.fontRenderer.drawWithShadow(this.matrixStack, itemCount, 22, itemTop - 64, config.statusElements.textColor);
                 }
             }
 
@@ -250,25 +248,33 @@ public class GameInfoHud {
     private List<String> getGameInfo() {
         List<String> gameInfo = new ArrayList<>();
 
-        Direction facing = this.player.getHorizontalFacing();
+        if (config.statusElements.toggleCoordinatesStatus) {
+            Direction facing = this.player.getHorizontalFacing();
 
-        String coordsFormat = "%.0f, %.0f, %.0f %s";
+            String coordsFormat = "%.0f, %.0f, %.0f %s";
 
-        String direction = "(" + capitalize(facing.asString()) + " " + getOffset(facing) + ")";
+            String direction = "(" + capitalize(facing.asString()) + " " + getOffset(facing) + ")";
 
-        // Coordinates and Direction info
-        gameInfo.add(String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ(), direction));
+            // Coordinates and Direction info
+            gameInfo.add(String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ(), direction));
+        }
 
-        // Get everything from fps debug string until the 's' from 'fps'
-        // gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
-        gameInfo.add(String.format("%d fps", ((GameClientMixin) MinecraftClient.getInstance()).getCurrentFps()));
+        if (config.statusElements.toggleFpsStatus) {
+            // Get everything from fps debug string until the 's' from 'fps'
+            // gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
+            gameInfo.add(String.format("%d fps", ((GameClientMixin) MinecraftClient.getInstance()).getCurrentFps()));
+        }
 
         // Get translated biome info
         if (client.world != null) {
-            gameInfo.add(capitalize(client.world.getBiome(player.getBlockPos()).getCategory().getName()) + " Biome");
+            if (config.statusElements.toggleBiomeStatus) {
+                gameInfo.add(capitalize(client.world.getBiome(player.getBlockPos()).getCategory().getName()) + " Biome");
+            }
 
-            // Add current parsed time
-            gameInfo.add(parseTime(client.world.getTimeOfDay()));
+            if (config.statusElements.toggleGameTimeStatus) {
+                // Add current parsed time
+                gameInfo.add(parseTime(client.world.getTimeOfDay()));
+            }
         }
 
         return gameInfo;
