@@ -17,8 +17,8 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
     - Current Biome the player is on
     - Toggle key (editable in Controls screen, default is `k`)
     - Settings page and config file with Mod Menu
-        - **Requires [Mod Menu Mod](https://www.curseforge.com/minecraft/mc-mods/modmenu) installed for in-game usage**
-        - Config file: `.minecraft/config/simple_utilities.toml`
+        - **Requires [Mod Menu mod](https://www.curseforge.com/minecraft/mc-mods/modmenu) to open settings screen in-game**
+        - Config file: `.minecraft/config/simple_utilities.toml` (does not require Mod Menu mod to edit)
 
 ---
 
