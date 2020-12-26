@@ -1,22 +1,29 @@
 {
   "schemaVersion": 1,
   "id": "simple_utilities",
-  "version": "${version}",
+  "version": "2.0.1",
   "name": "Simple Utilities",
   "description": "Adds simple utilities like extra simplified info on HUD",
   "authors": [
     "johnvictorfs"
   ],
+  "contributors": [
+    "trinity-1686a"
+  ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/johnvictorfs/simple-utilities-mod"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/simple-utilities",
+    "sources": "https://github.com/johnvictorfs/simple-utilities-mod",
+    "issues": "https://github.com/johnvictorfs/simple-utilities-mod/issues"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/simple_utilities/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       "net.johnvictorfs.simple_utilities.SimpleUtilities"
+    ],
+    "modmenu": [
+      "net.johnvictorfs.simple_utilities.config.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -29,5 +36,8 @@
   },
   "suggests": {
     "flamingo": "*"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true
   }
 }
