@@ -16,6 +16,7 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
     - Current framerate
     - Current Biome the player is on
     - Toggle key (editable in Controls screen, default is `k`)
+    - Settings page and config file with Mod Menu
 
 ---
 
@@ -23,13 +24,15 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 
 ![In-game HUD Example](images/ingame_hud.png)
 
+![Settings HUD Example](images/settings_hud.png)
+
 ---
 
 ## Installation
 
 - Install [Fabric Loader](https://fabricmc.net/use/) on your Minecraft client
-    - Recommended to install with the [MultiMC](https://multimc.org/) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
-- Download latest Mod `.jar` from [Github](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities)
+    - I recommended installing with the [MultiMC](https://multimc.org/) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
+- Download the latest Mod `.jar` from [Github](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities)
 - Put the downloaded Mod `.jar` in the `.minecraft/mods` folder
     - Or if you're using MultiMC, open the Minecraft instance settings you're using, and look for the option to add a Mod, then select the `.jar` file you downloaded
 - Done!
@@ -51,7 +54,6 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 
 - Add current status effects duration to HUD
 - Add Sun/Moon icons to the current game time, so it's easier to notice if it's Day or Night
-- Add settings to move HUD elements around the screen and toggle specific elements
 
 ---
 
