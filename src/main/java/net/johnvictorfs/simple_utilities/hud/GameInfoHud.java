@@ -284,11 +284,12 @@ public class GameInfoHud {
         if (client.world != null) {
             if (config.statusElements.toggleBiomeStatus) {
                 Biome biome = this.client.world.getBiome(player.getBlockPos());
-
                 Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome);
-                assert biomeIdentifier != null;
-                String biomeName = new TranslatableText("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
-                gameInfo.add(new TranslatableText("text.hud.simple_utilities.biome", capitalize(biomeName)).getString());
+
+                if (biomeIdentifier != null) {
+                    String biomeName = new TranslatableText("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
+                    gameInfo.add(new TranslatableText("text.hud.simple_utilities.biome", capitalize(biomeName)).getString());
+                }
             }
 
             if (config.statusElements.toggleGameTimeStatus) {

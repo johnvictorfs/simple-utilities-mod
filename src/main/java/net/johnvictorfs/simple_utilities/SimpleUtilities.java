@@ -38,9 +38,10 @@ public class SimpleUtilities implements ModInitializer {
         KeyBinding toggleHudKeybinding = KeyBindingHelper.registerKeyBinding(toggleHudKey);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player == null) return;
+
             if (toggleHudKeybinding.wasPressed()) {
                 SimpleUtilitiesConfig config = this.configHolder.getConfig();
-                assert client.player != null;
 
                 String chatMessage = "key.simple_utilities.toggle_hud.chat_message.on";
                 if (config.statusElements.toggleSimpleUtilitiesHUD) {
