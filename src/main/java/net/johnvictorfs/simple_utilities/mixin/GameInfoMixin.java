@@ -36,8 +36,4 @@ public abstract class GameInfoMixin {
             this.hudInfo.draw(matrixStack);
         }
     }
-
-    @Inject(method = "resetDebugHudChunk", at = @At(value = "RETURN"))
-    private void onReset(CallbackInfo ci) {
-    }
 }

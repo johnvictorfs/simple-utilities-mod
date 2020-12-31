@@ -20,12 +20,19 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class GameInfoHud {
@@ -40,7 +47,6 @@ public class GameInfoHud {
         this.client = client;
         this.fontRenderer = client.textRenderer;
         this.itemRenderer = client.getItemRenderer();
-        this.itemRenderer.zOffset -= 1000.0F;
 
         this.config = AutoConfig.getConfigHolder(SimpleUtilitiesConfig.class).getConfig();
 
@@ -248,15 +254,24 @@ public class GameInfoHud {
     private List<String> getGameInfo() {
         List<String> gameInfo = new ArrayList<>();
 
-        if (config.statusElements.toggleCoordinatesStatus) {
+        if (config.statusElements.toggleCoordinatesStatus || config.statusElements.toggleDirectionStatus) {
+            String coordDirectionStatus = "";
             Direction facing = this.player.getHorizontalFacing();
+            String translatedDirection = new TranslatableText("text.direction.simple_utilities." + facing.asString()).getString();
+            String direction = translatedDirection + " " + getOffset(facing);
 
-            String coordsFormat = "%.0f, %.0f, %.0f %s";
+            if (config.statusElements.toggleCoordinatesStatus) {
+                String coordsFormat = "%.0f, %.0f, %.0f";
+                coordDirectionStatus += String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ());
 
-            String direction = "(" + capitalize(facing.asString()) + " " + getOffset(facing) + ")";
+                if (config.statusElements.toggleDirectionStatus) {
+                    coordDirectionStatus += " (" + direction + ")";
+                }
+            } else if (config.statusElements.toggleDirectionStatus) {
+                coordDirectionStatus += direction;
+            }
 
-            // Coordinates and Direction info
-            gameInfo.add(String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ(), direction));
+            gameInfo.add(coordDirectionStatus);
         }
 
         if (config.statusElements.toggleFpsStatus) {
@@ -268,7 +283,12 @@ public class GameInfoHud {
         // Get translated biome info
         if (client.world != null) {
             if (config.statusElements.toggleBiomeStatus) {
-                gameInfo.add(capitalize(client.world.getBiome(player.getBlockPos()).getCategory().getName()) + " Biome");
+                Biome biome = this.client.world.getBiome(player.getBlockPos());
+
+                Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome);
+                assert biomeIdentifier != null;
+                String biomeName = new TranslatableText("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
+                gameInfo.add(new TranslatableText("text.hud.simple_utilities.biome", capitalize(biomeName)).getString());
             }
 
             if (config.statusElements.toggleGameTimeStatus) {
