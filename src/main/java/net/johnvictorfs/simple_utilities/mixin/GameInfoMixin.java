@@ -29,7 +29,7 @@ public abstract class GameInfoMixin {
         this.hudInfo = new GameInfoHud(client);
     }
 
-    @Inject(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;hudHidden:Z", ordinal = 2))
+    @Inject(method = "render", at = @At("HEAD"))
     private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci) {
         if (!this.client.options.debugEnabled) {
             // Draw Game info on every GameHud render
