@@ -12,6 +12,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -25,14 +26,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class GameInfoHud {
@@ -90,6 +88,10 @@ public class GameInfoHud {
 
         if ((this.client.options.keySprint.isPressed() || this.player.isSprinting()) && config.statusElements.toggleSprintStatus) {
             this.drawSprintingInfo();
+        }
+
+        if (config.statusElements.togglePlayerEffects) {
+            this.drawStatusEffectInfo();
         }
     }
 
