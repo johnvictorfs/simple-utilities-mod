@@ -13,6 +13,7 @@ public class SimpleUtilitiesConfig implements ConfigData {
     public static class StatusElements {
         public boolean toggleSimpleUtilitiesHUD = true;
         public boolean toggleCoordinatesStatus = true;
+        public boolean toggleDirectionStatus = true;
         public boolean toggleEquipmentStatus = true;
         public boolean toggleFpsStatus = true;
         public boolean toggleSprintStatus = true;

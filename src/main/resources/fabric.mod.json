@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "simple_utilities",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "name": "Simple Utilities",
   "description": "Adds simple utilities like extra simplified info on HUD",
   "authors": [
@@ -19,7 +19,7 @@
   "icon": "assets/simple_utilities/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "client": [
       "net.johnvictorfs.simple_utilities.SimpleUtilities"
     ],
     "modmenu": [
