@@ -20,6 +20,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
@@ -88,7 +89,7 @@ public class GameInfoHud {
             top += lineHeight;
         }
 
-        if ((this.client.options.keySprint.isPressed() || this.player.isSprinting()) && config.statusElements.toggleSprintStatus) {
+        if (config.statusElements.toggleSprintStatus && (this.client.options.keySprint.isPressed() || this.player.isSprinting())) {
             this.drawSprintingInfo();
         }
     }
@@ -111,7 +112,7 @@ public class GameInfoHud {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    private static String getOffset(Direction facing) {
+    private String getOffset(Direction facing) {
         String offset = "";
 
         if (facing.getOffsetX() > 0) {
