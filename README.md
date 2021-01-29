@@ -1,5 +1,7 @@
 # Simple Utilities Mod (Minecraft 1.16.x, 1.15.x)
 
+<a href="https://www.buymeacoffee.com/johnvictor" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
 Available to download from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities).
 
 Built using [Fabric Example Mod Template](https://github.com/FabricMC/fabric-example-mod) and made with the [Fabric](https://fabricmc.net) modding toolchain for Minecraft.
