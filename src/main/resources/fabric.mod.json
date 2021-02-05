@@ -36,8 +36,5 @@
   },
   "suggests": {
     "modmenu": ">=1.14.13"
-  },
-  "custom": {
-    "modmenu:clientsideOnly": true
   }
 }
