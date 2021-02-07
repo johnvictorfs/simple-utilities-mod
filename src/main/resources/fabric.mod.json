@@ -35,9 +35,6 @@
     "minecraft": ">=1.16.1"
   },
   "suggests": {
-    "modmenu": ">=1.14.13"
-  },
-  "custom": {
-    "modmenu:clientsideOnly": true
+    "modmenu": ">=1.16.3"
   }
 }
