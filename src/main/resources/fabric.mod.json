@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "simple_utilities",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "name": "Simple Utilities",
   "description": "Adds simple utilities like extra simplified info on HUD",
   "authors": [
