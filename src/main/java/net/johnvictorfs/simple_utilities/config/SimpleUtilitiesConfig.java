@@ -7,7 +7,7 @@ import net.johnvictorfs.simple_utilities.helpers.Colors;
 
 @Config(name = "simple_utilities")
 public class SimpleUtilitiesConfig implements ConfigData {
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Gui.TransitiveObject
     public StatusElements statusElements = new StatusElements();
 
     public static class StatusElements {
