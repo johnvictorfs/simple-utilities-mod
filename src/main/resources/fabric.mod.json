@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "simple_utilities",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "name": "Simple HUD Utilities",
   "description": "Adds simple utilities like extra simplified info on HUD",
   "authors": [
@@ -9,7 +9,8 @@
   ],
   "contributors": [
     "trinity-1686a",
-    "ColdIce1605"
+    "ColdIce1605",
+    "mkolakovsky"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/simple-utilities",
