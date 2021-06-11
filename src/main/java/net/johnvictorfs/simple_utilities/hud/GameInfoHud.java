@@ -161,7 +161,7 @@ public class GameInfoHud {
 
     private void drawEquipmentInfo() {
         List<ItemStack> equippedItems = new ArrayList<>();
-        PlayerInventory inventory = this.player.inventory;
+        PlayerInventory inventory = this.player.getInventory();
         int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(""));
 
         ItemStack mainHandItem = inventory.getMainHandStack();
@@ -173,7 +173,7 @@ public class GameInfoHud {
             equippedItems.add(secondHandItem);
         }
 
-        for (ItemStack armourItem : this.player.inventory.armor) {
+        for (ItemStack armourItem : this.player.getInventory().armor) {
             maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(armourItem.getTranslationKey())));
             equippedItems.add(armourItem);
         }
