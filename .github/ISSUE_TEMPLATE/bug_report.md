@@ -12,6 +12,8 @@ assignees: ''
 - [ ] Latest version of [Simple HUD Utilies](https://curseforge.com/minecraft/mc-mods/simple-utilities) for my Minecraft Version is installed
 - [ ] There is no currently [open issue](https://github.com/johnvictorfs/simple-utilities-mod/issues) about my problem
 
+---
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -39,6 +41,7 @@ Add any other context about the problem here.
 **Error Logs (for game or mod crashes)**
 
 Crash reports are available at:
+  - https://minecraft.fandom.com/wiki/Tutorials/How_to_get_a_crash_report
   - Linux: `~/.minecraft/crash-reports/crash-2021-XX-YY_AA.BB.CC-client.txt`
   - Windows: `%appdata%\.minecraft\crash-reports\crash-2021-XX-YY_AA.BB.CC-client.txt`
   - MacOS: `~/Library/Application Support/minecraft/crash-reports/crash-2021-XX-YY_AA.BB.CC-client.txt`
@@ -47,5 +50,6 @@ Crash reports are available at:
 <summary>Error Logs</summary>
 
 ```
+<Paste your crash report here>
 ```
 </details>
