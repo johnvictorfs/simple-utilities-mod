@@ -19,6 +19,9 @@ public class SimpleUtilitiesConfig implements ConfigData {
         public boolean toggleSprintStatus = true;
         public boolean toggleBiomeStatus = true;
         public boolean toggleGameTimeStatus = true;
+        public boolean togglePlayerName = true;
+        public boolean toggleServerName = true;
+        public boolean toggleServerIp = true;
 
         @ConfigEntry.ColorPicker
         public int textColor = Colors.white;

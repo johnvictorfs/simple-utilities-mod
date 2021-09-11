@@ -299,6 +299,30 @@ public class GameInfoHud {
             }
         }
 
+        if (config.statusElements.togglePlayerName) {
+            gameInfo.add(player.getEntityName());
+        }
+
+        if (config.statusElements.toggleServerName) {
+            String serverName = "Singleplayer";
+            try {
+                serverName = client.getCurrentServerEntry().name;
+            } catch (Exception e) {
+
+            }
+            gameInfo.add(serverName);
+        }
+
+        if (config.statusElements.toggleServerIp) {
+            String serverIp = "N/A";
+            try {
+                serverIp = client.getCurrentServerEntry().address;
+            } catch (Exception e) {
+
+            }
+            gameInfo.add(serverIp);
+        }
+
         return gameInfo;
     }
 }
