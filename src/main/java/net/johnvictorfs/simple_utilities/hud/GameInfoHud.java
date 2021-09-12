@@ -95,7 +95,7 @@ public class GameInfoHud {
     }
 
     private void drawSprintingInfo() {
-        final String sprintingText = "Sprinting";
+        final String sprintingText = (new TranslatableText("text.hud.simple_utilities.sprinting")).getString();
 
         int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(sprintingText));
         maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);

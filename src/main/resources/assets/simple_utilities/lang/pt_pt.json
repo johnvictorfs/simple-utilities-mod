@@ -8,6 +8,7 @@
   "text.direction.simple_utilities.south": "Sul",
   "text.direction.simple_utilities.north": "Norte",
   "text.hud.simple_utilities.biome": "Bioma: %s",
+  "text.hud.simple_utilities.sprinting": "Correndo",
   "text.autoconfig.simple_utilities.title": "Opções de Utilidades de HUD Simples",
   "text.autoconfig.simple_utilities.option.statusElements": "Elementos da HUD",
   "text.autoconfig.simple_utilities.option.statusElements.toggleSimpleUtilitiesHUD": "Mostrar HUD",

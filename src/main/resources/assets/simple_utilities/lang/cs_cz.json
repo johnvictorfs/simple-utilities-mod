@@ -8,6 +8,7 @@
   "text.direction.simple_utilities.south": "Jih",
   "text.direction.simple_utilities.north": "Sever",
   "text.hud.simple_utilities.biome": "Biom: %s",
+  "text.hud.simple_utilities.sprinting": "Běhání",
   "text.autoconfig.simple_utilities.title": "Jednoduché HUD Utility - Nastavení",
   "text.autoconfig.simple_utilities.option.statusElements": "HUD prvky",
   "text.autoconfig.simple_utilities.option.statusElements.toggleSimpleUtilitiesHUD": "Zobrazit HUD",
