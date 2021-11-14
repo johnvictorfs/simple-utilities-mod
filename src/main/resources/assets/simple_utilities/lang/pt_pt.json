@@ -1,0 +1,23 @@
+{
+  "key.category.simple_utilities.hud": "Utilidades de HUD Simples",
+  "key.simple_utilities.toggle_hud": "Ativar/desativar HUD",
+  "key.simple_utilities.toggle_hud.chat_message.on": "Utilidades de HUD Simples ativado",
+  "key.simple_utilities.toggle_hud.chat_message.off": "Utilidades de HUD Simples desativado",
+  "text.direction.simple_utilities.west": "Oeste",
+  "text.direction.simple_utilities.east": "Este",
+  "text.direction.simple_utilities.south": "Sul",
+  "text.direction.simple_utilities.north": "Norte",
+  "text.hud.simple_utilities.biome": "Bioma: %s",
+  "text.hud.simple_utilities.sprinting": "Correndo",
+  "text.autoconfig.simple_utilities.title": "Opções de Utilidades de HUD Simples",
+  "text.autoconfig.simple_utilities.option.statusElements": "Elementos da HUD",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleSimpleUtilitiesHUD": "Mostrar HUD",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleCoordinatesStatus": "Mostrar Coordenadas",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleDirectionStatus": "Mostrar Direção",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleEquipmentStatus": "Mostrar Estado dos Equipamentos",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleFpsStatus": "Mostrar FPS",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleSprintStatus": "Mostrar Corrida",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "Mostrar Nome do Bioma",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "Mostrar Horário do Jogo",
+  "text.autoconfig.simple_utilities.option.statusElements.textColor": "Cor do Texto"
+}
