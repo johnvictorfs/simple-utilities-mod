@@ -162,25 +162,25 @@ public class GameInfoHud {
     private void drawEquipmentInfo() {
         List<ItemStack> equippedItems = new ArrayList<>();
         PlayerInventory inventory = this.player.getInventory();
-        int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(""));
+        //int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(""));
+        int maxLineHeight = Math.max(100, this.fontRenderer.fontHeight);
 
         ItemStack mainHandItem = inventory.getMainHandStack();
-        maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(mainHandItem.getTranslationKey())));
+        //maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(mainHandItem.getTranslationKey())));
         equippedItems.add(mainHandItem);
 
         for (ItemStack secondHandItem : inventory.offHand) {
-            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(secondHandItem.getTranslationKey())));
+            //maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(secondHandItem.getTranslationKey())));
             equippedItems.add(secondHandItem);
         }
 
         for (ItemStack armourItem : this.player.getInventory().armor) {
-            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(armourItem.getTranslationKey())));
+            //maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(armourItem.getTranslationKey())));
             equippedItems.add(armourItem);
         }
 
         maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
         int itemTop = this.client.getWindow().getScaledHeight() - maxLineHeight;
-
         int lineHeight = this.fontRenderer.fontHeight + 6;
 
         // Draw in order Helmet -> Chestplate -> Leggings -> Boots
