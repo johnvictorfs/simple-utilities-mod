@@ -19,6 +19,7 @@ public class SimpleUtilitiesConfig implements ConfigData {
         public boolean toggleSprintStatus = true;
         public boolean toggleBiomeStatus = true;
         public boolean toggleGameTimeStatus = true;
+        public boolean toggleNetherCoordinateConversion = true;
 
         @ConfigEntry.ColorPicker
         public int textColor = Colors.white;

@@ -239,11 +239,6 @@ public class GameInfoHud {
             ampm = "PM";
         }
 
-        if (hours >= 12) {
-            hours -= 12;
-            ampm = "AM";
-        }
-
         if (hours == 0) hours = 12;
 
         String mm = "0" + minutes;
@@ -273,6 +268,15 @@ public class GameInfoHud {
             }
 
             gameInfo.add(coordDirectionStatus);
+        }
+
+        if (config.statusElements.toggleNetherCoordinateConversion) {
+            String coordsFormat = "X: %.0f, Z: %.0f";
+            if (this.player.getWorld().getRegistryKey().getValue().toString().equals("minecraft:overworld")) {
+                gameInfo.add("Nether: " + String.format(coordsFormat, this.player.getX() / 8, this.player.getZ() / 8));
+            } else if (this.player.getWorld().getRegistryKey().getValue().toString().equals("minecraft:the_nether")) {
+                gameInfo.add("Overworld: " + String.format(coordsFormat, this.player.getX() * 8, this.player.getZ() * 8));
+            }
         }
 
         if (config.statusElements.toggleFpsStatus) {
