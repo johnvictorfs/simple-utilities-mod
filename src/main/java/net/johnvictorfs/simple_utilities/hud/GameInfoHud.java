@@ -26,6 +26,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
@@ -89,7 +90,7 @@ public class GameInfoHud {
             top += lineHeight;
         }
 
-        if (config.statusElements.toggleSprintStatus && (this.client.options.keySprint.isPressed() || this.player.isSprinting())) {
+        if (config.statusElements.toggleSprintStatus && (this.client.options.sprintKey.isPressed() || this.player.isSprinting())) {
             this.drawSprintingInfo();
         }
     }
@@ -239,11 +240,6 @@ public class GameInfoHud {
             ampm = "PM";
         }
 
-        if (hours >= 12) {
-            hours -= 12;
-            ampm = "AM";
-        }
-
         if (hours == 0) hours = 12;
 
         String mm = "0" + minutes;
@@ -275,6 +271,15 @@ public class GameInfoHud {
             gameInfo.add(coordDirectionStatus);
         }
 
+        if (config.statusElements.toggleNetherCoordinateConversion) {
+            String coordsFormat = "X: %.0f, Z: %.0f";
+            if (this.player.getWorld().getRegistryKey().getValue().toString().equals("minecraft:overworld")) {
+                gameInfo.add("Nether: " + String.format(coordsFormat, this.player.getX() / 8, this.player.getZ() / 8));
+            } else if (this.player.getWorld().getRegistryKey().getValue().toString().equals("minecraft:the_nether")) {
+                gameInfo.add("Overworld: " + String.format(coordsFormat, this.player.getX() * 8, this.player.getZ() * 8));
+            }
+        }
+
         if (config.statusElements.toggleFpsStatus) {
             // Get everything from fps debug string until the 's' from 'fps'
             // gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
@@ -284,8 +289,8 @@ public class GameInfoHud {
         // Get translated biome info
         if (client.world != null) {
             if (config.statusElements.toggleBiomeStatus) {
-                Biome biome = this.client.world.getBiome(player.getBlockPos());
-                Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome);
+                RegistryEntry<Biome> biome = this.client.world.getBiome(player.getBlockPos());
+                Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome.value());
 
                 if (biomeIdentifier != null) {
                     String biomeName = new TranslatableText("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
