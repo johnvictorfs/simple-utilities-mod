@@ -1,4 +1,4 @@
-# Simple Utilities Mod (Minecraft 1.18.x, 1.17.x, 1.16.x, 1.15.x)
+# Simple Utilities Mod (Minecraft 1.15 - 1.18)
 
 <a href="https://www.buymeacoffee.com/johnvictor" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
@@ -36,10 +36,10 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 ## Installation
 
 - Install [Fabric Loader](https://fabricmc.net/use/) on your Minecraft client
-    - I recommended installing with the [MultiMC](https://multimc.org/) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
+    - I recommended installing with the [PolyMC](https://github.com/PolyMC/PolyMC) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
 - Download the latest Mod `.jar` from [Github](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities)
 - Put the downloaded Mod `.jar` in the `.minecraft/mods` folder
-    - Or if you're using MultiMC, open the Minecraft instance settings you're using, and look for the option to add a Mod, then select the `.jar` file you downloaded
+    - Or if you're using PolyMC, open the Minecraft instance settings you're using, and look for the option to add a Mod, then select the `.jar` file you downloaded
 - Done!
 
 ---
