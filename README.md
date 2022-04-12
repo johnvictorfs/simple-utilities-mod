@@ -65,7 +65,7 @@ Planned features
 </summary>
 
 - Add configuration to move any specific HUD elements around the screen (drag-and-drop if possible)
-- Add option for E counter (entities) and C counter (chunck sections) (possibly M/C counters as well (monsters/creatures)) 
+- Add option for E counter (entities) and C counter (chunk sections) (possibly M/C counters as well (monsters/creatures)) 
 - Add current status effects duration to HUD
 - Add Sun/Moon icons to the current game time, so it's easier to notice if it's Day or Night
 </details>
