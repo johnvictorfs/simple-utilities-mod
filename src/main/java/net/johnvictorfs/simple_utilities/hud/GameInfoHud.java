@@ -21,7 +21,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -96,7 +95,7 @@ public class GameInfoHud {
     }
 
     private void drawSprintingInfo() {
-        final String sprintingText = (new TranslatableText("text.hud.simple_utilities.sprinting")).getString();
+        final String sprintingText = (Text.translatable("text.hud.simple_utilities.sprinting")).getString();
 
         int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(sprintingText));
         maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
@@ -254,7 +253,7 @@ public class GameInfoHud {
         if (config.statusElements.toggleCoordinatesStatus || config.statusElements.toggleDirectionStatus) {
             String coordDirectionStatus = "";
             Direction facing = this.player.getHorizontalFacing();
-            String translatedDirection = new TranslatableText("text.direction.simple_utilities." + facing.asString()).getString();
+            String translatedDirection = Text.translatable("text.direction.simple_utilities." + facing.asString()).getString();
             String direction = translatedDirection + " " + getOffset(facing);
 
             if (config.statusElements.toggleCoordinatesStatus) {
@@ -293,8 +292,8 @@ public class GameInfoHud {
                 Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome.value());
 
                 if (biomeIdentifier != null) {
-                    String biomeName = new TranslatableText("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
-                    gameInfo.add(new TranslatableText("text.hud.simple_utilities.biome", capitalize(biomeName)).getString());
+                    String biomeName = Text.translatable("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
+                    gameInfo.add(Text.translatable("text.hud.simple_utilities.biome", capitalize(biomeName)).getString());
                 }
             }
 
