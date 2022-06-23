@@ -11,7 +11,8 @@
     "trinity-1686a",
     "ColdIce1605",
     "mkolakovsky",
-    "rogama25"
+    "rogama25",
+    "SpencerBurgess"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/simple-utilities",
@@ -33,11 +34,11 @@
     "simple_utilities.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.0",
+    "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.18.1"
+    "minecraft": ">=1.19.0"
   },
   "suggests": {
-    "modmenu": ">=3.0.1"
+    "modmenu": ">=4.0.0"
   }
 }
