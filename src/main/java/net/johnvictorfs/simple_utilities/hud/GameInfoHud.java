@@ -1,7 +1,7 @@
 package net.johnvictorfs.simple_utilities.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.johnvictorfs.simple_utilities.config.SimpleUtilitiesConfig;
 import net.johnvictorfs.simple_utilities.helpers.Colors;
 import com.google.common.collect.Lists;
