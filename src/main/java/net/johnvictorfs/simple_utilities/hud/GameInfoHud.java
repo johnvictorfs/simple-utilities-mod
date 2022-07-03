@@ -303,6 +303,8 @@ public class GameInfoHud {
             }
         }
 
+        // 追加分
+
         if (config.statusElements.togglePlayerName) {
             gameInfo.add(player.getEntityName());
         }
@@ -317,7 +319,7 @@ public class GameInfoHud {
             gameInfo.add(serverName);
         }
 
-        if (config.statusElements.toggleServerIp) {
+        if (config.statusElements.toggleServerAddress) {
             String serverIp = "N/A";
             try {
                 serverIp = client.getCurrentServerEntry().address;
