@@ -21,6 +21,11 @@ public class SimpleUtilitiesConfig implements ConfigData {
         public boolean toggleGameTimeStatus = true;
         public boolean toggleNetherCoordinateConversion = false;
 
+        // 追加分
+        public boolean togglePlayerName = true;
+        public boolean toggleServerName = true;
+        public boolean toggleServerAddress = true;
+
         @ConfigEntry.ColorPicker
         public int textColor = Colors.white;
     }
