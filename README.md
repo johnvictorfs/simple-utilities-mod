@@ -1,8 +1,6 @@
-# Simple Utilities Mod (Minecraft 1.17.x, 1.16.x, 1.15.x)
+# Simple Utilities Mod (Minecraft 1.15 - 1.19)
 
-<a href="https://www.buymeacoffee.com/johnvictor" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-Available to download from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities).
+Available to download from [Modrinth](https://modrinth.com/mod/simple-hud-utilities) or [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities).
 
 Built using [Fabric Example Mod Template](https://github.com/FabricMC/fabric-example-mod) and made with the [Fabric](https://fabricmc.net) modding toolchain for Minecraft.
 
@@ -17,6 +15,7 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
     - Current sprinting status
     - Current framerate
     - Current Biome the player is on
+    - Nether/overworld coordinates conversion
     - Toggle key (editable in Controls screen, default is `k`)
     - Settings page and config file with Mod Menu
         - **Requires [Mod Menu mod](https://www.curseforge.com/minecraft/mc-mods/modmenu) to open settings screen in-game**
@@ -35,10 +34,10 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 ## Installation
 
 - Install [Fabric Loader](https://fabricmc.net/use/) on your Minecraft client
-    - I recommended installing with the [MultiMC](https://multimc.org/) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
+    - I recommended installing with the [PolyMC](https://github.com/PolyMC/PolyMC) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
 - Download the latest Mod `.jar` from [Github](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities)
 - Put the downloaded Mod `.jar` in the `.minecraft/mods` folder
-    - Or if you're using MultiMC, open the Minecraft instance settings you're using, and look for the option to add a Mod, then select the `.jar` file you downloaded
+    - Or if you're using PolyMC, open the Minecraft instance settings you're using, and look for the option to add a Mod, then select the `.jar` file you downloaded
 - Done!
 
 ---
@@ -64,7 +63,7 @@ Planned features
 </summary>
 
 - Add configuration to move any specific HUD elements around the screen (drag-and-drop if possible)
-- Add option for E counter (entities) and C counter (chunck sections) (possibly M/C counters as well (monsters/creatures)) 
+- Add option for E counter (entities) and C counter (chunk sections) (possibly M/C counters as well (monsters/creatures)) 
 - Add current status effects duration to HUD
 - Add Sun/Moon icons to the current game time, so it's easier to notice if it's Day or Night
 </details>

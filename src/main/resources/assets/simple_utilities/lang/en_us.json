@@ -19,8 +19,6 @@
   "text.autoconfig.simple_utilities.option.statusElements.toggleSprintStatus": "Sprinting Status",
   "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "Biome Info Status",
   "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "In-Game Time Status",
-  "text.autoconfig.simple_utilities.option.statusElements.textColor": "Text Color",
-  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerName": "Player Name",
-  "text.autoconfig.simple_utilities.option.statusElements.toggleServerName": "Server Name",
-  "text.autoconfig.simple_utilities.option.statusElements.toggleServerIp": "Server Ip"
+  "text.autoconfig.simple_utilities.option.statusElements.toggleNetherCoordinateConversion": "Dimension Coordinate Conversion",
+  "text.autoconfig.simple_utilities.option.statusElements.textColor": "Text Color"
 }

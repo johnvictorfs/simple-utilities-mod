@@ -1,8 +1,8 @@
 package net.johnvictorfs.simple_utilities.config;
 
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.johnvictorfs.simple_utilities.helpers.Colors;
 
 @Config(name = "simple_utilities")
@@ -19,9 +19,7 @@ public class SimpleUtilitiesConfig implements ConfigData {
         public boolean toggleSprintStatus = true;
         public boolean toggleBiomeStatus = true;
         public boolean toggleGameTimeStatus = true;
-        public boolean togglePlayerName = true;
-        public boolean toggleServerName = true;
-        public boolean toggleServerIp = true;
+        public boolean toggleNetherCoordinateConversion = false;
 
         @ConfigEntry.ColorPicker
         public int textColor = Colors.white;

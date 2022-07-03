@@ -1,14 +1,14 @@
 package net.johnvictorfs.simple_utilities;
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.ConfigHolder;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.johnvictorfs.simple_utilities.config.SimpleUtilitiesConfig;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class SimpleUtilities implements ClientModInitializer {
@@ -48,7 +48,7 @@ public class SimpleUtilities implements ClientModInitializer {
                     chatMessage = "key.simple_utilities.toggle_hud.chat_message.off";
                 }
 
-                client.player.sendMessage(new TranslatableText(chatMessage), true);
+                client.player.sendMessage(Text.translatable(chatMessage), true);
                 config.statusElements.toggleSimpleUtilitiesHUD = !config.statusElements.toggleSimpleUtilitiesHUD;
                 AutoConfig.getConfigHolder(SimpleUtilitiesConfig.class).save();
             }
