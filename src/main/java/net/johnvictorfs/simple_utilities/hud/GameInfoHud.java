@@ -257,8 +257,8 @@ public class GameInfoHud {
             String direction = translatedDirection + " " + getOffset(facing);
 
             if (config.statusElements.toggleCoordinatesStatus) {
-                String coordsFormat = "%.0f, %.0f, %.0f";
-                coordDirectionStatus += String.format(coordsFormat, this.player.getX(), this.player.getY(), this.player.getZ());
+                String coordsFormat = "%d, %d, %d";
+                coordDirectionStatus += String.format(coordsFormat, (int) this.player.getX(), (int) this.player.getY(), (int) this.player.getZ());
 
                 if (config.statusElements.toggleDirectionStatus) {
                     coordDirectionStatus += " (" + direction + ")";
