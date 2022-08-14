@@ -40,5 +40,11 @@
   },
   "suggests": {
     "modmenu": ">=4.0.0"
+  },
+  "custom": {
+    "modmanager": {
+      "curseforge": 356722,
+      "modrinth": "Mn86JBmJ"
+    }
   }
 }
