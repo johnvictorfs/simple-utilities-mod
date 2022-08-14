@@ -1,4 +1,7 @@
 changelog:
+  exclude:
+    labels:
+      - ci/cd
   categories:
     - title: Bug Fixes
       labels:
