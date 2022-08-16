@@ -24,6 +24,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
@@ -283,6 +285,17 @@ public class GameInfoHud {
             // Get everything from fps debug string until the 's' from 'fps'
             // gameInfo.add(client.fpsDebugString.substring(0, client.fpsDebugString.indexOf("s") + 1));
             gameInfo.add(String.format("%d fps", ((GameClientMixin) MinecraftClient.getInstance()).getCurrentFps()));
+        }
+
+        // Player Speed
+        if (config.statusElements.togglePlayerSpeedStatus) {
+            // Calculating Speed
+            Vec3d playerPosVec = client.player.getPos();
+            double travelledX = playerPosVec.x - client.player.prevX;
+            double travelledZ = playerPosVec.z - client.player.prevZ;
+            double currentSpeed = MathHelper.sqrt((float)(travelledX * travelledX + travelledZ * travelledZ));
+            //double currentVertSpeed = playerPosVec.y - client.player.prevY;
+            gameInfo.add(String.format("%.2f m/s", currentSpeed / 0.05F));
         }
 
         // Get translated biome info
