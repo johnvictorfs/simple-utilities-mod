@@ -34,10 +34,8 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 ## Installation
 
 - Install [Fabric Loader](https://fabricmc.net/use/) on your Minecraft client
-    - I recommended installing with the [PolyMC](https://github.com/PolyMC/PolyMC) Minecraft client, which allows you to install Fabric in one click in the Minecraft instance settings
 - Download the latest Mod `.jar` from [Github](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities)
 - Put the downloaded Mod `.jar` in the `.minecraft/mods` folder
-    - Or if you're using PolyMC, open the Minecraft instance settings you're using, and look for the option to add a Mod, then select the `.jar` file you downloaded
 - Done!
 
 ---
