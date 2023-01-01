@@ -20,6 +20,8 @@
   "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "Biome Info Status",
   "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "In-Game Time Status",
   "text.autoconfig.simple_utilities.option.statusElements.toggleNetherCoordinateConversion": "Dimension Coordinate Conversion",
+  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerSpeedStatus": "Player Speed",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleLightLevelStatus": "Light Level",
   "text.autoconfig.simple_utilities.option.statusElements.togglePlayerName": "Player Name",
   "text.autoconfig.simple_utilities.option.statusElements.toggleServerName": "Server Name",
   "text.autoconfig.simple_utilities.option.statusElements.toggleServerAddress": "Server Address",

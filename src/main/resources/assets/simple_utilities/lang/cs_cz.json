@@ -19,5 +19,11 @@
   "text.autoconfig.simple_utilities.option.statusElements.toggleSprintStatus": "Sprintování",
   "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "Informace o Biomu",
   "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "Čas ve hře",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleNetherCoordinateConversion": "Převod souřadnic do Netheru",
+  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerSpeedStatus": "Rychlost hráče",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleLightLevelStatus": "Úroveň světla",
+  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerName": "Jméno hráče",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleServerName": "Jméno serveru",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleServerAddress": "Adresa serveru",
   "text.autoconfig.simple_utilities.option.statusElements.textColor": "Barva textu"
 }
