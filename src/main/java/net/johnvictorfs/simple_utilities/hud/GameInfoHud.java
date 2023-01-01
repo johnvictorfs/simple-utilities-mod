@@ -32,10 +32,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class GameInfoHud {
@@ -290,7 +287,7 @@ public class GameInfoHud {
         // Player Speed
         if (config.statusElements.togglePlayerSpeedStatus) {
             // Calculating Speed
-            Vec3d playerPosVec = client.player.getPos();
+            Vec3d playerPosVec = Objects.requireNonNull(client.player).getPos();
             double travelledX = playerPosVec.x - client.player.prevX;
             double travelledZ = playerPosVec.z - client.player.prevZ;
             double currentSpeed = MathHelper.sqrt((float)(travelledX * travelledX + travelledZ * travelledZ));
@@ -300,6 +297,13 @@ public class GameInfoHud {
 
         // Get translated biome info
         if (client.world != null) {
+
+            // Light Level
+            if (config.statusElements.toggleLightLevelStatus) {
+                int lightLevel = client.world.getLightLevel(Objects.requireNonNull(client.player).getBlockPos());
+                gameInfo.add("Light Level: " + lightLevel);
+            }
+
             if (config.statusElements.toggleBiomeStatus) {
                 RegistryEntry<Biome> biome = this.client.world.getBiome(player.getBlockPos());
                 Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome.value());

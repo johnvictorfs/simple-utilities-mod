@@ -21,6 +21,7 @@ public class SimpleUtilitiesConfig implements ConfigData {
         public boolean toggleGameTimeStatus = true;
         public boolean toggleNetherCoordinateConversion = false;
         public boolean togglePlayerSpeedStatus = true;
+        public boolean toggleLightLevelStatus = true;
 
         // 追加分
         public boolean togglePlayerName = true;
