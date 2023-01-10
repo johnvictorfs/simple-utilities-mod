@@ -20,6 +20,8 @@
   "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "バイオーム情報",
   "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "ゲーム内時刻の情報",
   "text.autoconfig.simple_utilities.option.statusElements.toggleNetherCoordinateConversion": "方角と座標の比較",
+  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerSpeedStatus": "プレイヤーの速度",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleLightLevelStatus": "光源レベル",
   "text.autoconfig.simple_utilities.option.statusElements.togglePlayerName": "プレイヤー名",
   "text.autoconfig.simple_utilities.option.statusElements.toggleServerName": "サーバー名",
   "text.autoconfig.simple_utilities.option.statusElements.toggleServerAddress": "サーバーアドレス",

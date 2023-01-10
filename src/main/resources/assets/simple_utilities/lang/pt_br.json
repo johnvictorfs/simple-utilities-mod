@@ -20,5 +20,7 @@
   "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "Status de Bioma",
   "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "Status do Horário do Jogo",
   "text.autoconfig.simple_utilities.option.statusElements.toggleNetherCoordinateConversion": "Conversão de coordenadas entre dimensões",
+  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerSpeedStatus": "Status de Velocidade do Jogador",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleLightLevelStatus": "Status de Nível de Luz",
   "text.autoconfig.simple_utilities.option.statusElements.textColor": "Cor do Texto"
 }

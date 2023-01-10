@@ -20,5 +20,7 @@
   "text.autoconfig.simple_utilities.option.statusElements.toggleBiomeStatus": "바이옴 정보",
   "text.autoconfig.simple_utilities.option.statusElements.toggleGameTimeStatus": "인게임 시간 정보",
   "text.autoconfig.simple_utilities.option.statusElements.toggleNetherCoordinateConversion": "차원 좌표 변환",
+  "text.autoconfig.simple_utilities.option.statusElements.togglePlayerSpeedStatus": "플레이어 속도 정보",
+  "text.autoconfig.simple_utilities.option.statusElements.toggleLightLevelStatus": "빛 레벨 정보",
   "text.autoconfig.simple_utilities.option.statusElements.textColor": "텍스트 색상"
 }

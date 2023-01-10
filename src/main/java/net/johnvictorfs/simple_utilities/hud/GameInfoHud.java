@@ -20,20 +20,15 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class GameInfoHud {
@@ -285,14 +280,31 @@ public class GameInfoHud {
             gameInfo.add(String.format("%d fps", ((GameClientMixin) MinecraftClient.getInstance()).getCurrentFps()));
         }
 
+        // Player Speed
+        if (config.statusElements.togglePlayerSpeedStatus) {
+            // Calculating Speed
+            Vec3d playerPosVec = Objects.requireNonNull(client.player).getPos();
+            double travelledX = playerPosVec.x - client.player.prevX;
+            double travelledZ = playerPosVec.z - client.player.prevZ;
+            double currentSpeed = MathHelper.sqrt((float)(travelledX * travelledX + travelledZ * travelledZ));
+            //double currentVertSpeed = playerPosVec.y - client.player.prevY;
+            gameInfo.add(String.format("%.2f m/s", currentSpeed / 0.05F));
+        }
+
         // Get translated biome info
         if (client.world != null) {
-            if (config.statusElements.toggleBiomeStatus) {
-                RegistryEntry<Biome> biome = this.client.world.getBiome(player.getBlockPos());
-                Identifier biomeIdentifier = this.client.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome.value());
 
-                if (biomeIdentifier != null) {
-                    String biomeName = Text.translatable("biome." + biomeIdentifier.getNamespace() + "." + biomeIdentifier.getPath()).getString();
+            // Light Level
+            if (config.statusElements.toggleLightLevelStatus) {
+                int lightLevel = client.world.getLightLevel(Objects.requireNonNull(client.player).getBlockPos());
+                gameInfo.add("Light Level: " + lightLevel);
+            }
+
+            if (config.statusElements.toggleBiomeStatus) {
+                Optional<RegistryKey<Biome>> biome = this.client.world.getBiome(player.getBlockPos()).getKey();
+
+                if (biome.isPresent()) {
+                    String biomeName = Text.translatable("biome." + biome.get().getValue().getNamespace() + "." + biome.get().getValue().getPath()).getString();
                     gameInfo.add(Text.translatable("text.hud.simple_utilities.biome", capitalize(biomeName)).getString());
                 }
             }
