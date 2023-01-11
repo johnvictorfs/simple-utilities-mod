@@ -40,7 +40,7 @@
     "minecraft": ">=1.19.3"
   },
   "suggests": {
-    "modmenu": ">=4.0.0"
+    "modmenu": ">=5.0.0"
   },
   "custom": {
     "modmanager": {

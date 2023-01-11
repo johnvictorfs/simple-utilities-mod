@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.johnvictorfs.simple_utilities.config.SimpleUtilitiesConfig;
 import net.johnvictorfs.simple_utilities.helpers.Colors;
-import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.johnvictorfs.simple_utilities.mixin.GameClientMixin;
@@ -18,7 +17,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
@@ -54,7 +52,7 @@ public class GameInfoHud {
     }
 
     public void draw(MatrixStack matrixStack) {
-        if (!config.statusElements.toggleSimpleUtilitiesHUD) return;
+        if (!config.uiConfig.toggleSimpleUtilitiesHUD) return;
 
         this.player = this.client.player;
 
@@ -71,20 +69,42 @@ public class GameInfoHud {
         // Draw lines of Array of Game info in the screen
         List<String> gameInfo = getGameInfo();
 
-        if (config.statusElements.toggleEquipmentStatus && !(this.client.currentScreen instanceof ChatScreen)) {
+        if (config.uiConfig.toggleEquipmentStatus && !(this.client.currentScreen instanceof ChatScreen)) {
             drawEquipmentInfo();
         }
 
-        int lineHeight = this.fontRenderer.fontHeight + 2;
-        int top = 0;
-        int left = 4;
-
-        for (String line : gameInfo) {
-            this.fontRenderer.drawWithShadow(this.matrixStack, line, left, top + 4, config.statusElements.textColor);
-            top += lineHeight;
+        // Get the longest string in the array
+        int longestString = 0;
+        int BoxWidth = 0;
+        for (String s : gameInfo) {
+            if (s.length() > longestString) {
+                longestString = s.length();
+                BoxWidth = this.fontRenderer.getWidth(s);
+            }
         }
 
-        if (config.statusElements.toggleSprintStatus && (this.client.options.sprintKey.isPressed() || this.player.isSprinting())) {
+        int lineHeight = this.fontRenderer.fontHeight + 2;
+        int configXPosition = config.statusElements.Xcords;
+        int yAxis = (((this.client.getWindow().getScaledHeight()) - ((lineHeight + 4) * gameInfo.size())) + (lineHeight + 4)) * (config.statusElements.Ycords) / 100;
+        int xAxis = (((this.client.getWindow().getScaledWidth() - 4) - 4) - (BoxWidth)) * configXPosition / 100;
+
+        // Add Padding to left of the screen
+        if (xAxis <= 4) {
+            xAxis = 4;
+        }
+
+        for (String line : gameInfo) {
+            int offset = 0;
+            if (configXPosition >= 50) {
+                int lineLength = this.fontRenderer.getWidth(line);
+                offset = (BoxWidth - lineLength);
+            }
+
+            this.fontRenderer.drawWithShadow(this.matrixStack, line, xAxis + offset, yAxis + 4, config.uiConfig.textColor);
+            yAxis += lineHeight;
+        }
+
+        if (config.uiConfig.toggleSprintStatus && (this.client.options.sprintKey.isPressed() || this.player.isSprinting())) {
             this.drawSprintingInfo();
         }
     }
@@ -92,13 +112,21 @@ public class GameInfoHud {
     private void drawSprintingInfo() {
         final String sprintingText = (Text.translatable("text.hud.simple_utilities.sprinting")).getString();
 
-        int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(sprintingText));
-        maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
-        int scaleHeight = this.client.getWindow().getScaledHeight();
-        int sprintingTop = scaleHeight - maxLineHeight;
+        int yAxis = (((this.client.getWindow().getScaledHeight() - this.fontRenderer.fontHeight + 2) - 4) * (config.uiConfig.sprintStatusLocationY) / 100);
+        int xAxis = (((this.client.getWindow().getScaledWidth() - this.fontRenderer.getWidth(sprintingText)) - 8) * (config.uiConfig.sprintStatusLocationX) / 100);
+
+        // Add Padding to left of the screen
+        if (xAxis <= 4) {
+            xAxis = 4;
+        }
+
+        // Add Padding to top of the screen
+        if (yAxis <= 4) {
+            yAxis = 4;
+        }
 
         // Sprinting Info
-        this.fontRenderer.drawWithShadow(this.matrixStack, sprintingText, 2, sprintingTop + 20, config.statusElements.textColor);
+        this.fontRenderer.drawWithShadow(this.matrixStack, sprintingText, xAxis, yAxis, config.uiConfig.textColor);
     }
 
     private static String capitalize(String str) {
@@ -155,72 +183,91 @@ public class GameInfoHud {
     }
 
     private void drawEquipmentInfo() {
-        List<ItemStack> equippedItems = new ArrayList<>();
-        PlayerInventory inventory = this.player.getInventory();
-        int maxLineHeight = Math.max(10, this.fontRenderer.getWidth(""));
+        // Get Items from Inventory
+        List<EquipmentInfoStack> equipmentInfo = new ArrayList<>(
+                Arrays.asList(
+                        new EquipmentInfoStack(this.player.getInventory().getArmorStack(3)),
+                        new EquipmentInfoStack(this.player.getInventory().getArmorStack(2)),
+                        new EquipmentInfoStack(this.player.getInventory().getArmorStack(1)),
+                        new EquipmentInfoStack(this.player.getInventory().getArmorStack(0)),
+                        new EquipmentInfoStack(this.player.getOffHandStack()),
+                        new EquipmentInfoStack(this.player.getMainHandStack())
+                )
+        );
 
-        ItemStack mainHandItem = inventory.getMainHandStack();
-        maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(mainHandItem.getTranslationKey())));
-        equippedItems.add(mainHandItem);
+        // Remove Air Blocks from the list
+        equipmentInfo.removeIf(equipment -> equipment.getItem().getItem().equals(Blocks.AIR.asItem()));
 
-        for (ItemStack secondHandItem : inventory.offHand) {
-            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(secondHandItem.getTranslationKey())));
-            equippedItems.add(secondHandItem);
-        }
+        // Get each Items String and Color
+        for (EquipmentInfoStack index : equipmentInfo) {
+            ItemStack item = index.getItem();
 
-        for (ItemStack armourItem : this.player.getInventory().armor) {
-            maxLineHeight = Math.max(maxLineHeight, this.fontRenderer.getWidth(I18n.translate(armourItem.getTranslationKey())));
-            equippedItems.add(armourItem);
-        }
+            if (item.getMaxDamage() != 0) {
+                int currentDurability = item.getMaxDamage() - item.getDamage();
 
-        maxLineHeight = (int) (Math.ceil(maxLineHeight / 5.0D + 0.5D) * 5);
-        int itemTop = this.client.getWindow().getScaledHeight() - maxLineHeight;
-
-        int lineHeight = this.fontRenderer.fontHeight + 6;
-
-        // Draw in order Helmet -> Chestplate -> Leggings -> Boots
-        for (ItemStack equippedItem : Lists.reverse(equippedItems)) {
-            if (equippedItem.getItem().equals(Blocks.AIR.asItem())) {
-                // Skip empty slots
-                continue;
-            }
-
-            this.itemRenderer.renderInGuiWithOverrides(equippedItem, 2, itemTop - 68);
-
-            if (equippedItem.getMaxDamage() != 0) {
-                int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
-
-                String itemDurability = currentDurability + "/" + equippedItem.getMaxDamage();
+                // Draw Durability
+                index.setText(String.format("%s/%s", currentDurability, item.getMaxDamage()));
 
                 // Default Durability Color
-                int color = config.statusElements.textColor;
-
-                if (currentDurability < equippedItem.getMaxDamage()) {
-                    // Start as Green if item has lost at least 1 durability
-                    color = Colors.lightGreen;
+                if (currentDurability <= (item.getMaxDamage()) / 4) {
+                    index.setColor(Colors.lightRed);
+                } else if (currentDurability <= (item.getMaxDamage() / 2.5)) {
+                    index.setColor(Colors.lightOrange);
+                } else if (currentDurability <= (item.getMaxDamage() / 1.5)) {
+                    index.setColor(Colors.lightYellow);
+                } else if (currentDurability < item.getMaxDamage()) {
+                    index.setColor(Colors.lightGreen);
+                } else {
+                    index.setColor(config.uiConfig.textColor);
                 }
-                if (currentDurability <= (equippedItem.getMaxDamage() / 1.5)) {
-                    color = Colors.lightYellow;
-                }
-                if (currentDurability <= (equippedItem.getMaxDamage() / 2.5)) {
-                    color = Colors.lightOrange;
-                }
-                if (currentDurability <= (equippedItem.getMaxDamage()) / 4) {
-                    color = Colors.lightRed;
-                }
-
-                this.fontRenderer.drawWithShadow(this.matrixStack, itemDurability, 22, itemTop - 64, color);
             } else {
-                int inventoryCount = inventory.count(equippedItem.getItem());
-                int count = equippedItem.getCount();
-
-                if (inventoryCount > 1) {
-                    String itemCount = count + " (" + inventoryCount + ")";
-                    this.fontRenderer.drawWithShadow(this.matrixStack, itemCount, 22, itemTop - 64, config.statusElements.textColor);
-                }
+                // Draw Count
+                index.setText((item.getCount() + " (" + this.player.getInventory().count(item.getItem()) + ")"));
             }
+        }
 
-            itemTop += lineHeight;
+        // Get the longest string in the array
+        int longestString = 0;
+        int BoxWidth = 0;
+        for (EquipmentInfoStack index : equipmentInfo) {
+            String s = index.getText();
+            if (s.length() > longestString) {
+                longestString = s.length();
+                BoxWidth = this.fontRenderer.getWidth(s);
+            }
+        }
+
+        // Screen Size Calculations
+        int configX = config.uiConfig.equipmentLocationX;
+        int lineHeight = this.fontRenderer.fontHeight + 8;
+        int yAxis = (this.client.getWindow().getScaledHeight() - (lineHeight * equipmentInfo.size())) * (config.uiConfig.equipmentLocationY) / 100;
+        int xAxis = ((this.client.getWindow().getScaledWidth() - 8) - (BoxWidth + 20)) * configX / 100;
+
+        // Add Padding to left of the screen
+        if (xAxis <= 4) {
+            xAxis = 4;
+        }
+
+        // Add Padding to top of the screen
+        if (yAxis <= 4) {
+            yAxis = 4;
+        }
+
+        // Draw All Items on Screen
+        for (EquipmentInfoStack index : equipmentInfo) {
+            ItemStack item = index.getItem();
+
+            if (configX >= 50) {
+                int lineLength = this.fontRenderer.getWidth(index.getText());
+                int offset = (BoxWidth - lineLength);
+
+                this.fontRenderer.drawWithShadow(this.matrixStack, index.getText(), xAxis + offset + 2, yAxis, index.getColor());
+                this.itemRenderer.renderInGuiWithOverrides(item, xAxis + BoxWidth + 6, yAxis - 5);
+            } else {
+                this.itemRenderer.renderInGuiWithOverrides(item, xAxis, yAxis - 5);
+                this.fontRenderer.drawWithShadow(this.matrixStack, index.getText(), xAxis + 20, yAxis, index.getColor());
+            }
+            yAxis += lineHeight;
         }
     }
 
@@ -252,8 +299,7 @@ public class GameInfoHud {
             String direction = translatedDirection + " " + getOffset(facing);
 
             if (config.statusElements.toggleCoordinatesStatus) {
-                String coordsFormat = "%d, %d, %d";
-                coordDirectionStatus += String.format(coordsFormat, (int) this.player.getX(), (int) this.player.getY(), (int) this.player.getZ());
+                coordDirectionStatus += String.format("%d, %d, %d", this.player.getBlockPos().getX(), this.player.getBlockPos().getY(), this.player.getBlockPos().getZ());
 
                 if (config.statusElements.toggleDirectionStatus) {
                     coordDirectionStatus += " (" + direction + ")";
@@ -315,32 +361,57 @@ public class GameInfoHud {
             }
         }
 
-        // 追加分
-
         if (config.statusElements.togglePlayerName) {
             gameInfo.add(player.getEntityName());
         }
 
-        if (config.statusElements.toggleServerName) {
-            String serverName = "Singleplayer";
-            try {
-                serverName = client.getCurrentServerEntry().name;
-            } catch (Exception e) {
-
+        // Just Don't Create a Text Line if there is no Info
+        if (client.getCurrentServerEntry() != null) {
+            if (config.statusElements.toggleServerName) {
+                String serverName = client.getCurrentServerEntry().name;
+                gameInfo.add(serverName);
             }
-            gameInfo.add(serverName);
+
+            if (config.statusElements.toggleServerAddress) {
+                String serverIp = client.getCurrentServerEntry().address;
+                gameInfo.add(serverIp);
+            }
         }
 
-        if (config.statusElements.toggleServerAddress) {
-            String serverIp = "N/A";
-            try {
-                serverIp = client.getCurrentServerEntry().address;
-            } catch (Exception e) {
 
-            }
-            gameInfo.add(serverIp);
-        }
 
         return gameInfo;
+    }
+
+    private static class EquipmentInfoStack {
+        private final ItemStack item;
+        private int color;
+        private String text;
+
+        public EquipmentInfoStack(ItemStack item) {
+            this.item = item;
+            this.text = "";
+            this.color = 0x00E0E0E0;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public ItemStack getItem() {
+            return item;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public String getText() {
+            return text;
+        }
     }
 }

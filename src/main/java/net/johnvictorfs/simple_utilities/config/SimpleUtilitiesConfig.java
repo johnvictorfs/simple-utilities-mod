@@ -7,28 +7,64 @@ import net.johnvictorfs.simple_utilities.helpers.Colors;
 
 @Config(name = "simple_utilities")
 public class SimpleUtilitiesConfig implements ConfigData {
-    @ConfigEntry.Gui.TransitiveObject
-    public StatusElements statusElements = new StatusElements();
-
     public static class StatusElements {
-        public boolean toggleSimpleUtilitiesHUD = true;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int Xcords = 0;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int Ycords = 0;
+        @ConfigEntry.Gui.Tooltip
         public boolean toggleCoordinatesStatus = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean toggleDirectionStatus = true;
-        public boolean toggleEquipmentStatus = true;
-        public boolean toggleFpsStatus = true;
-        public boolean toggleSprintStatus = true;
-        public boolean toggleBiomeStatus = true;
-        public boolean toggleGameTimeStatus = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean toggleNetherCoordinateConversion = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleFpsStatus = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean togglePlayerSpeedStatus = true;
-        public boolean toggleLightLevelStatus = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleLightLevelStatus = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleBiomeStatus = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleGameTimeStatus = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean togglePlayerName = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleServerName = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleServerAddress = false;
+    }
 
-        // 追加分
-        public boolean togglePlayerName = true;
-        public boolean toggleServerName = true;
-        public boolean toggleServerAddress = true;
-
+    public static class UIConfig {
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleSimpleUtilitiesHUD = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleEquipmentStatus = false;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int equipmentLocationX = 0;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int equipmentLocationY = 60;
+        @ConfigEntry.Gui.Tooltip
+        public boolean toggleSprintStatus = false;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int sprintStatusLocationX = 0;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int sprintStatusLocationY = 90;
+        @ConfigEntry.Gui.Tooltip
         @ConfigEntry.ColorPicker
         public int textColor = Colors.white;
     }
+
+    @ConfigEntry.Gui.TransitiveObject
+    public UIConfig uiConfig = new UIConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
+    public StatusElements statusElements = new StatusElements();
 }

@@ -31,7 +31,7 @@ public class SimpleUtilities implements ClientModInitializer {
     void registerKeybindings() {
         KeyBinding toggleHudKey = new KeyBinding(
                 "key.simple_utilities.toggle_hud",
-                GLFW.GLFW_KEY_K,
+                GLFW.GLFW_KEY_GRAVE_ACCENT,
                 "key.category.simple_utilities.hud"
         );
 
@@ -44,12 +44,12 @@ public class SimpleUtilities implements ClientModInitializer {
                 SimpleUtilitiesConfig config = this.configHolder.getConfig();
 
                 String chatMessage = "key.simple_utilities.toggle_hud.chat_message.on";
-                if (config.statusElements.toggleSimpleUtilitiesHUD) {
+                if (config.uiConfig.toggleSimpleUtilitiesHUD) {
                     chatMessage = "key.simple_utilities.toggle_hud.chat_message.off";
                 }
 
                 client.player.sendMessage(Text.translatable(chatMessage), true);
-                config.statusElements.toggleSimpleUtilitiesHUD = !config.statusElements.toggleSimpleUtilitiesHUD;
+                config.uiConfig.toggleSimpleUtilitiesHUD = !config.uiConfig.toggleSimpleUtilitiesHUD;
                 AutoConfig.getConfigHolder(SimpleUtilitiesConfig.class).save();
             }
         });
