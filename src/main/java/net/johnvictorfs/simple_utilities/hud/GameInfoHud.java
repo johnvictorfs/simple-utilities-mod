@@ -184,8 +184,8 @@ public class GameInfoHud {
                 // Skip empty slots
                 continue;
             }
-
-            this.itemRenderer.renderInGuiWithOverrides(equippedItem, 2, itemTop - 68);
+            MatrixStack mStack = new MatrixStack();
+            this.itemRenderer.renderInGuiWithOverrides(mStack, equippedItem, 2, itemTop - 68);
 
             if (equippedItem.getMaxDamage() != 0) {
                 int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
