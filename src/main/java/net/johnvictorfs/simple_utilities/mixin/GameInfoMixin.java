@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.johnvictorfs.simple_utilities.hud.GameInfoHud;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -31,10 +32,10 @@ public abstract class GameInfoMixin {
     }
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci) {
+    private void onDraw(DrawContext context, float esp, CallbackInfo ci) {
         if (!this.client.options.debugEnabled) {
             // Draw Game info on every GameHud render
-            this.hudInfo.draw(matrixStack);
+            this.hudInfo.draw(context);
         }
     }
 }

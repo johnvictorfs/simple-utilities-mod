@@ -20,13 +20,13 @@ public class SimpleUtilitiesConfig implements ConfigData {
         public boolean toggleBiomeStatus = true;
         public boolean toggleGameTimeStatus = true;
         public boolean toggleNetherCoordinateConversion = false;
-        public boolean togglePlayerSpeedStatus = true;
-        public boolean toggleLightLevelStatus = true;
+        public boolean togglePlayerSpeedStatus = false;
+        public boolean toggleLightLevelStatus = false;
 
         // 追加分
-        public boolean togglePlayerName = true;
-        public boolean toggleServerName = true;
-        public boolean toggleServerAddress = true;
+        public boolean togglePlayerName = false;
+        public boolean toggleServerName = false;
+        public boolean toggleServerAddress = false;
 
         @ConfigEntry.ColorPicker
         public int textColor = Colors.white;
