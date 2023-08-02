@@ -11,9 +11,8 @@ import net.johnvictorfs.simple_utilities.mixin.GameClientMixin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.effect.StatusEffect;
@@ -21,6 +20,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Direction;
@@ -35,14 +35,12 @@ public class GameInfoHud {
     private final MinecraftClient client;
     private final TextRenderer fontRenderer;
     private ClientPlayerEntity player;
-    private MatrixStack matrixStack;
-    private final ItemRenderer itemRenderer;
+    private DrawContext context;
     private SimpleUtilitiesConfig config;
 
     public GameInfoHud(MinecraftClient client) {
         this.client = client;
         this.fontRenderer = client.textRenderer;
-        this.itemRenderer = client.getItemRenderer();
 
         this.config = AutoConfig.getConfigHolder(SimpleUtilitiesConfig.class).getConfig();
 
@@ -53,12 +51,12 @@ public class GameInfoHud {
         });
     }
 
-    public void draw(MatrixStack matrixStack) {
+    public void draw(DrawContext context) {
         if (!config.statusElements.toggleSimpleUtilitiesHUD) return;
 
         this.player = this.client.player;
 
-        this.matrixStack = matrixStack;
+        this.context = context;
 
         RenderSystem.enableBlend();
 
@@ -70,6 +68,8 @@ public class GameInfoHud {
     private void drawInfos() {
         // Draw lines of Array of Game info in the screen
         List<String> gameInfo = getGameInfo();
+//        create minecraft text from string
+//        Text text = Text.of(String.join("\n", gameInfo));
 
         if (config.statusElements.toggleEquipmentStatus && !(this.client.currentScreen instanceof ChatScreen)) {
             drawEquipmentInfo();
@@ -80,7 +80,7 @@ public class GameInfoHud {
         int left = 4;
 
         for (String line : gameInfo) {
-            this.fontRenderer.drawWithShadow(this.matrixStack, line, left, top + 4, config.statusElements.textColor);
+            this.context.drawTextWithShadow(this.fontRenderer, line, left, top + 4, config.statusElements.textColor);
             top += lineHeight;
         }
 
@@ -98,7 +98,7 @@ public class GameInfoHud {
         int sprintingTop = scaleHeight - maxLineHeight;
 
         // Sprinting Info
-        this.fontRenderer.drawWithShadow(this.matrixStack, sprintingText, 2, sprintingTop + 20, config.statusElements.textColor);
+        this.context.drawTextWithShadow(this.fontRenderer, sprintingText, 2, sprintingTop + 20, config.statusElements.textColor);
     }
 
     private static String capitalize(String str) {
@@ -149,7 +149,7 @@ public class GameInfoHud {
 
                 int color = effect.getKey().getColor();
 
-                this.fontRenderer.drawWithShadow(this.matrixStack, effectName + " " + duration, 40, 200, color);
+                this.context.drawTextWithShadow(this.fontRenderer, effectName + " " + duration, 40, 200, color);
             }
         }
     }
@@ -185,7 +185,7 @@ public class GameInfoHud {
                 continue;
             }
 
-            this.itemRenderer.renderInGuiWithOverrides(equippedItem, 2, itemTop - 68);
+            this.context.drawItem(equippedItem, 2, itemTop - 68); // TODO Check
 
             if (equippedItem.getMaxDamage() != 0) {
                 int currentDurability = equippedItem.getMaxDamage() - equippedItem.getDamage();
@@ -209,14 +209,15 @@ public class GameInfoHud {
                     color = Colors.lightRed;
                 }
 
-                this.fontRenderer.drawWithShadow(this.matrixStack, itemDurability, 22, itemTop - 64, color);
+                this.context.drawTextWithShadow(this.fontRenderer, itemDurability, 22, itemTop - 64, color);
+
             } else {
                 int inventoryCount = inventory.count(equippedItem.getItem());
                 int count = equippedItem.getCount();
 
                 if (inventoryCount > 1) {
                     String itemCount = count + " (" + inventoryCount + ")";
-                    this.fontRenderer.drawWithShadow(this.matrixStack, itemCount, 22, itemTop - 64, config.statusElements.textColor);
+                    this.context.drawTextWithShadow(this.fontRenderer, itemCount, 22, itemTop - 64, config.statusElements.textColor);
                 }
             }
 
