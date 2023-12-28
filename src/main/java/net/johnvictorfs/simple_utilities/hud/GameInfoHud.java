@@ -20,7 +20,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Direction;
@@ -319,7 +318,7 @@ public class GameInfoHud {
         // 追加分
 
         if (config.statusElements.togglePlayerName) {
-            gameInfo.add(player.getEntityName());
+            gameInfo.add(player.getName().getString());
         }
 
         if (config.statusElements.toggleServerName) {
