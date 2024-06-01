@@ -23,8 +23,8 @@ public abstract class GameInfoMixin {
     @Final
     private MinecraftClient client;
 
-    @Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/render/item/ItemRenderer;)V", at = @At(value = "RETURN"))
-    private void onInit(MinecraftClient client, ItemRenderer render, CallbackInfo ci) {
+    @Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;)V", at = @At(value = "RETURN"))
+    private void onInit(MinecraftClient client, CallbackInfo ci) {
         // Start Mixin
         System.out.println("Init Coordinates Mixin");
         this.hudInfo = new GameInfoHud(client);

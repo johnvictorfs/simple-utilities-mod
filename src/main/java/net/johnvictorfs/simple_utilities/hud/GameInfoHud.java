@@ -20,6 +20,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Direction;
@@ -139,14 +140,14 @@ public class GameInfoHud {
 
     private void drawStatusEffectInfo() {
         if (this.client.player != null) {
-            Map<StatusEffect, StatusEffectInstance> effects = this.client.player.getActiveStatusEffects();
+            Map<RegistryEntry<StatusEffect>, StatusEffectInstance> effects = this.client.player.getActiveStatusEffects();
 
-            for (Map.Entry<StatusEffect, StatusEffectInstance> effect : effects.entrySet()) {
-                String effectName = I18n.translate(effect.getKey().getTranslationKey());
+            for (Map.Entry<RegistryEntry<StatusEffect>, StatusEffectInstance> effect : effects.entrySet()) {
+                String effectName = I18n.translate(effect.getValue().getEffectType().value().getTranslationKey());
 
                 String duration = secondsToString(effect.getValue().getDuration() / 20);
 
-                int color = effect.getKey().getColor();
+                int color = effect.getValue().getEffectType().value().getColor();
 
                 this.context.drawTextWithShadow(this.fontRenderer, effectName + " " + duration, 40, 200, color);
             }
