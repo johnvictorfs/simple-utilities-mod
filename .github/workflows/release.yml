@@ -36,7 +36,7 @@ jobs:
           echo "::set-output name=MOD_VERSION::$MOD_VERSION"
 
       - name: Create new releases for GitHub, Modrinth and CurseForge
-        uses: Kir-Antipov/mc-publish@v3.1
+        uses: Kir-Antipov/mc-publish@995edadc13559a8b28d0b7e6571229f067ec7659
         with:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
