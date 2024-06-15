@@ -1,3 +1,5 @@
+# END OF LIFE Please Use [Simple Hud Enhanced](https://github.com/SoRadGaming/Simple-HUD-Enhanced) Instead
+
 # Simple Utilities Mod (Minecraft 1.15 - 1.20)
 
 Available to download from [Modrinth](https://modrinth.com/mod/simple-hud-utilities) or [Curseforge](https://www.curseforge.com/minecraft/mc-mods/simple-utilities).
