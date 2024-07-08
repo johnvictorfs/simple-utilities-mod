@@ -34,7 +34,7 @@ A Minecraft Mod that enhances the Game's HUD with some simple utilities like the
 ## Installation
 
 - Install [Fabric](https://fabricmc.net/use/).
-- Download the latest version of Simple Utilities (in the `.jar` file format) from [GitHub](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Modrinth](https://modrinth.com/mod/modmenu).
+- Download the latest version of Simple Utilities (in the `.jar` file format) from [GitHub](https://github.com/johnvictorfs/simple-utilities-mod/releases/latest) or from [Modrinth](https://modrinth.com/mod/simple-hud-utilities).
 - Move the downloaded file into the `.minecraft/mods` folder.
 
 ---
