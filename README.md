@@ -1,4 +1,14 @@
-# END OF LIFE Please Use [Simple Hud Enhanced](https://github.com/SoRadGaming/Simple-HUD-Enhanced) Instead
+# END OF LIFE
+
+# Consider using an alternativa: [Simple Hud Enhanced](https://github.com/SoRadGaming/Simple-HUD-Enhanced) instead
+
+*Adding this notice as of commit `5420a64d12e2738df9669c51b035e47e34876068` for the mod linked above*
+
+**This mod is unlikely to receive future changes and has pending unsolved issues I couldn't get around to fixing/adding.**
+
+The mod linked above has more features and lots of unsolved bugs are already fixed. UX is pretty much the same and any feature it has over this one are toggleable if you want a more minimal experience.
+
+---
 
 # Simple Utilities Mod (Minecraft 1.15 - 1.20)
 
