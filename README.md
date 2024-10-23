@@ -1,6 +1,6 @@
 # END OF LIFE
 
-# Consider using an alternative: [Simple Hud Enhanced](https://github.com/SoRadGaming/Simple-HUD-Enhanced) instead
+# Consider using an [Simple Hud Enhanced](https://github.com/SoRadGaming/Simple-HUD-Enhanced) instead
 
 *Adding this notice as of commit `5420a64d12e2738df9669c51b035e47e34876068` for the mod linked above*
 
